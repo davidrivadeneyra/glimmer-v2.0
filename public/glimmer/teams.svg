@@ -1,0 +1,54 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 100.309 94.0396" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="teams">
+<path id="rectangle" d="M59.5584 42.7505C59.5584 41.6459 60.4538 40.7505 61.5584 40.7505H98.3089C99.4135 40.7505 100.309 41.6459 100.309 42.7505V64.2604C100.309 75.5133 91.1866 84.6356 79.9337 84.6356C68.6807 84.6356 59.5584 75.5133 59.5584 64.2604V42.7505Z" fill="url(#paint0_linear_0_58)"/>
+<path id="rectangle_2" d="M28.2119 36.4812C28.2119 35.3766 29.1073 34.4812 30.2119 34.4812H76.3663C77.4709 34.4812 78.3663 35.3766 78.3663 36.4812V68.9624C78.3663 82.8121 67.1389 94.0396 53.2891 94.0396C39.4393 94.0396 28.2119 82.8121 28.2119 68.9624V36.4812Z" fill="url(#paint1_linear_0_58)"/>
+<g id="ellipse">
+<circle cx="84.6356" cy="25.0772" r="9.40396" fill="var(--fill-0, #34439E)"/>
+<circle cx="84.6356" cy="25.0772" r="9.40396" fill="url(#paint2_linear_0_58)"/>
+</g>
+<circle id="ellipse_2" cx="56.4238" cy="18.8079" r="12.5386" fill="url(#paint3_linear_0_58)"/>
+<g id="Mask Group">
+<mask id="mask0_0_58" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="28" y="0" width="51" height="95">
+<g id="Union">
+<path d="M53.2891 31.3465C61.9454 31.3465 68.9624 24.3295 68.9624 15.6733C68.9624 7.017 61.9454 0 53.2891 0C44.6328 0 37.6158 7.017 37.6158 15.6733C37.6158 24.3295 44.6328 31.3465 53.2891 31.3465Z" fill="url(#paint4_linear_0_58)"/>
+<path d="M32.0544 34.4812C29.9323 34.4812 28.2119 36.2016 28.2119 38.3237V68.9624C28.2119 82.8123 39.4392 94.0396 53.2891 94.0396C67.139 94.0396 78.3663 82.8123 78.3663 68.9624V38.3237C78.3663 36.2016 76.6459 34.4812 74.5238 34.4812H32.0544Z" fill="url(#paint5_linear_0_58)"/>
+</g>
+</mask>
+<g mask="url(#mask0_0_58)">
+<path id="rectangle_3" d="M21.9426 31.2119C21.9426 29.555 23.2857 28.2119 24.9426 28.2119H59.6931C61.3499 28.2119 62.6931 29.555 62.6931 31.2119V81.6356C62.6931 83.2925 61.3499 84.6356 59.6931 84.6356H21.9426V31.2119Z" fill="var(--fill-0, black)" fill-opacity="0.3"/>
+</g>
+</g>
+<rect id="rectangle_4" y="21.9426" width="56.4238" height="56.4238" rx="2" fill="url(#paint6_linear_0_58)"/>
+<path id="T" d="M40.7505 34.4812H15.6733V40.2324H25.0614V65.8277H31.3624V40.2324H40.7505V34.4812Z" fill="var(--fill-0, white)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_58" x1="59.5584" y1="43.0602" x2="100.808" y2="70.014" gradientUnits="userSpaceOnUse">
+<stop stop-color="#364088"/>
+<stop offset="1" stop-color="#6E7EE1"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_58" x1="28.2119" y1="60.8243" x2="78.3663" y2="60.8243" gradientUnits="userSpaceOnUse">
+<stop stop-color="#515FC4"/>
+<stop offset="1" stop-color="#7084EA"/>
+</linearGradient>
+<linearGradient id="paint2_linear_0_58" x1="75.2317" y1="16.6632" x2="93.4012" y2="29.4491" gradientUnits="userSpaceOnUse">
+<stop stop-color="#364088"/>
+<stop offset="1" stop-color="#6E7EE1"/>
+</linearGradient>
+<linearGradient id="paint3_linear_0_58" x1="47.4676" y1="9.85177" x2="63.5887" y2="28.6597" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4858AE"/>
+<stop offset="1" stop-color="#4E60CE"/>
+</linearGradient>
+<linearGradient id="paint4_linear_0_58" x1="42.0939" y1="4.47808" x2="62.2453" y2="27.988" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4858AE"/>
+<stop offset="1" stop-color="#4E60CE"/>
+</linearGradient>
+<linearGradient id="paint5_linear_0_58" x1="42.0939" y1="4.47808" x2="62.2453" y2="27.988" gradientUnits="userSpaceOnUse">
+<stop stop-color="#4858AE"/>
+<stop offset="1" stop-color="#4E60CE"/>
+</linearGradient>
+<linearGradient id="paint6_linear_0_58" x1="-1.63485e-07" y1="50.1544" x2="56.4238" y2="50.1544" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2A3887"/>
+<stop offset="1" stop-color="#4C56B9"/>
+</linearGradient>
+</defs>
+</svg>
