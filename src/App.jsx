@@ -1,12 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
 
+const HERO_FRAME_COUNT = 361
+const HERO_TITLES = [
+  ['Detecta lo que importa.', 'Decide mejor.'],
+  ['Sin busqueda.', 'Sin ruido.'],
+  ['Sin cambiar de', 'herramientas.'],
+]
+
+const getHeroFrameSrc = (index) =>
+  `/assets/video-frames/hero-sequence/frame-${String(index + 1).padStart(4, '0')}.webp`
+
 const clientLogos = [
-  'Accel',
-  'Accenture',
-  'ACLU',
-  'Acrew',
-  'Adapt',
-  'Bankrate',
+  { name: '3IPunt', src: '/assets/logos-clientes/3IPunt.png' },
+  { name: 'ARQ', src: '/assets/logos-clientes/ARQ.png' },
+  { name: 'Delvy', src: '/assets/logos-clientes/Delvy.png' },
+  { name: 'Grupo Lamadrid', src: '/assets/logos-clientes/Grupo%20Lamadrid.png' },
+  { name: 'HOk Capital', src: '/assets/logos-clientes/HOk%20Capital.png' },
+  { name: 'NexusClips', src: '/assets/logos-clientes/NexusClips.png' },
+  { name: 'RSM', src: '/assets/logos-clientes/RSM.png' },
+  { name: 'S4Gaming', src: '/assets/logos-clientes/S4Gaming%20Logo.png' },
+  { name: 'Top Cable', src: '/assets/logos-clientes/top%20cable.png' },
+  { name: 'dilobonito', src: '/assets/logos-clientes/dilobonito.png' },
 ]
 
 const signalWords = [
@@ -306,13 +320,8 @@ function TickerSection({ words }) {
         <div className="page-shell ticker-shell">
           <div className="ticker-top">
             <img className="ticker-logo spin-loop" src="/assets/isotipo-dark.svg" alt="" />
-            <div className=''>
               <p className="ticker-copy">
-              Sin busqueda. Sin ruido.</p>
-            <p className='type-button'>Sin cambiar de herramientas.</p>
-              
-            </div>
-            
+              Glimmer nació para ayudarte con... </p>            
           </div>
 
           <div className="ticker-stage">
@@ -349,12 +358,68 @@ function TickerSection({ words }) {
 
 function App() {
   const heroRef = useRef(null)
-  const heroVideoRef = useRef(null)
-  const heroVideoDurationRef = useRef(0)
+  const heroCanvasRef = useRef(null)
+  const heroFrameImagesRef = useRef([])
+  const heroFrameIndexRef = useRef(0)
+  const heroTitleIndexRef = useRef(0)
   const [heroLogoScale, setHeroLogoScale] = useState(1)
+  const [heroTitleIndex, setHeroTitleIndex] = useState(0)
 
   useEffect(() => {
     let frameId = 0
+    let isDisposed = false
+
+    const drawFrame = (frameIndex) => {
+      const canvas = heroCanvasRef.current
+      const image = heroFrameImagesRef.current[frameIndex]
+      if (!canvas || !image || !image.complete) {
+        return
+      }
+
+      const context = canvas.getContext('2d')
+      if (!context) {
+        return
+      }
+
+      const canvasWidth = canvas.width
+      const canvasHeight = canvas.height
+      if (!canvasWidth || !canvasHeight) {
+        return
+      }
+
+      const imageWidth = image.naturalWidth || image.width
+      const imageHeight = image.naturalHeight || image.height
+      if (!imageWidth || !imageHeight) {
+        return
+      }
+
+      const scale = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight)
+      const drawWidth = imageWidth * scale
+      const drawHeight = imageHeight * scale
+      const offsetX = (canvasWidth - drawWidth) * 0.5
+      const offsetY = (canvasHeight - drawHeight) * 0.5
+
+      context.clearRect(0, 0, canvasWidth, canvasHeight)
+      context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight)
+    }
+
+    const syncCanvasSize = () => {
+      const canvas = heroCanvasRef.current
+      if (!canvas) {
+        return
+      }
+
+      const viewportWidth = window.innerWidth || 1
+      const viewportHeight = window.innerHeight || 1
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
+
+      canvas.width = Math.round(viewportWidth * pixelRatio)
+      canvas.height = Math.round(viewportHeight * pixelRatio)
+      canvas.style.width = `${viewportWidth}px`
+      canvas.style.height = `${viewportHeight}px`
+
+      drawFrame(heroFrameIndexRef.current)
+    }
 
     const updateHeroProgress = () => {
       const hero = heroRef.current
@@ -369,16 +434,20 @@ function App() {
       const scale = 1 + progress
 
       setHeroLogoScale(scale)
+      const frameIndex = Math.min(
+        HERO_FRAME_COUNT - 1,
+        Math.round(progress * (HERO_FRAME_COUNT - 1)),
+      )
 
-      const heroVideo = heroVideoRef.current
-      const duration = heroVideoDurationRef.current
-      if (!heroVideo || duration <= 0) {
-        return
+      if (heroFrameIndexRef.current !== frameIndex) {
+        heroFrameIndexRef.current = frameIndex
+        drawFrame(frameIndex)
       }
 
-      const targetTime = duration * progress
-      if (Math.abs(heroVideo.currentTime - targetTime) > 0.016) {
-        heroVideo.currentTime = targetTime
+      const nextTitleIndex = frameIndex >= 180 ? 2 : frameIndex >= 90 ? 1 : 0
+      if (heroTitleIndexRef.current !== nextTitleIndex) {
+        heroTitleIndexRef.current = nextTitleIndex
+        setHeroTitleIndex(nextTitleIndex)
       }
     }
 
@@ -387,40 +456,36 @@ function App() {
       frameId = window.requestAnimationFrame(updateHeroProgress)
     }
 
-    const handleVideoReady = () => {
-      const heroVideo = heroVideoRef.current
-      if (!heroVideo) {
-        return
+    heroFrameImagesRef.current = Array.from({ length: HERO_FRAME_COUNT }, (_, index) => {
+      const image = new Image()
+      image.decoding = 'async'
+      image.src = getHeroFrameSrc(index)
+      image.onload = () => {
+        if (isDisposed) {
+          return
+        }
+
+        if (index === 0 || index === heroFrameIndexRef.current) {
+          drawFrame(heroFrameIndexRef.current)
+        }
       }
+      return image
+    })
 
-      heroVideoDurationRef.current = Number.isFinite(heroVideo.duration)
-        ? heroVideo.duration
-        : 0
-      heroVideo.pause()
-      heroVideo.currentTime = 0
-      requestUpdate()
-    }
-
-    const heroVideo = heroVideoRef.current
-    if (heroVideo) {
-      if (heroVideo.readyState >= 1) {
-        handleVideoReady()
-      }
-
-      heroVideo.addEventListener('loadedmetadata', handleVideoReady)
-    }
-
+    syncCanvasSize()
     requestUpdate()
     window.addEventListener('scroll', requestUpdate, { passive: true })
-    window.addEventListener('resize', requestUpdate)
+    window.addEventListener('resize', syncCanvasSize)
 
     return () => {
+      isDisposed = true
       cancelAnimationFrame(frameId)
-      if (heroVideo) {
-        heroVideo.removeEventListener('loadedmetadata', handleVideoReady)
-      }
+      heroFrameImagesRef.current.forEach((image) => {
+        image.onload = null
+      })
+      heroFrameImagesRef.current = []
       window.removeEventListener('scroll', requestUpdate)
-      window.removeEventListener('resize', requestUpdate)
+      window.removeEventListener('resize', syncCanvasSize)
     }
   }, [])
 
@@ -429,15 +494,7 @@ function App() {
       <section className="hero-section" ref={heroRef}>
         <div className="hero-sticky">
           <div className="hero-media" aria-hidden="true">
-            <video
-              ref={heroVideoRef}
-              className="hero-video"
-              muted
-              playsInline
-              preload="auto"
-            >
-              <source src="/assets/video/video-hero.webm" type="video/webm" />
-            </video>
+            <canvas ref={heroCanvasRef} className="hero-canvas" />
           </div>
           <div className="hero-isotipo" aria-hidden="true">
             <img
@@ -464,7 +521,17 @@ function App() {
 
             <div className="hero-grid" id="top">
               <div className="hero-copy">
-                <h1>Detecta lo que importa. Decide mejor.</h1>
+                <h1 className="hero-title">
+                  <span className="hero-title-mask">
+                    <span key={heroTitleIndex} className="hero-title-text">
+                      {HERO_TITLES[heroTitleIndex].map((line) => (
+                        <span key={line} className="hero-title-line">
+                          {line}
+                        </span>
+                      ))}
+                    </span>
+                  </span>
+                </h1>
                 <p>
                   Glimmer es una plataforma de inteligencia de mercado impulsada por
                   IA que transforma el ruido en senales estrategicas para la alta
@@ -476,17 +543,25 @@ function App() {
                 <div className="hero-trust">
                   <p>Empresas que ya confian en nosotros</p>
                   <div className="hero-logo-row">
-                    {clientLogos.map((logo) => (
-                      <span key={logo}>{logo}</span>
-                    ))}
+                    <div className="hero-logo-track">
+                      {[...clientLogos, ...clientLogos].map((logo, index) => (
+                        <span
+                          key={`${logo.name}-${index}`}
+                          className="hero-logo-item"
+                          aria-hidden={index >= clientLogos.length}
+                        >
+                          <img src={logo.src} alt={index < clientLogos.length ? logo.name : ''} />
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
                 <div className="hero-button-row">
-                  <a className="button button--light" href="mailto:hola@glimmer.ai">
+                  <a className="button button--light w-full" href="mailto:hola@glimmer.ai">
                     Solicitar demo
                   </a>
-                  <a className="button button--glass" href="#producto">
+                  <a className="button button--glass w-full" href="#producto">
                     Ver como funciona
                   </a>
                 </div>
