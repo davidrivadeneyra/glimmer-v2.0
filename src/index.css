@@ -1,6 +1,5 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities;
 
 :root {
   color-scheme: dark;
@@ -362,12 +361,8 @@ select {
 }
 
 .hero-nav-cta {
-  padding: 12px 24px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #d7d7d7;
-  font-size: 14px;
-  font-weight: 600;
+  min-height: 44px;
+  padding: 12px 20px;
 }
 
 .hero-grid {
@@ -402,7 +397,7 @@ select {
 .hero-title-text {
   display: block;
   will-change: transform, opacity;
-  animation: hero-title-rise 560ms cubic-bezier(0.22, 1, 0.36, 1);
+  animation: hero-title-rise 560ms cubic-bezier(.625,.05,0,1);
 }
 
 .hero-title-line {
@@ -426,8 +421,8 @@ select {
 .hero-trust {
   padding: 16px 24px;
   border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.03);
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.14);
   backdrop-filter: blur(12px);
 }
 
@@ -471,50 +466,118 @@ select {
   gap: 8px;
 }
 
-.button {
+.ui-button {
+  --button-bg: var(--bg-white);
+  --button-fg: var(--title-darker);
+  --button-border: transparent;
+  --button-shadow: none;
+  --button-backdrop: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: 56px;
   padding: 20px 32px;
-  border-radius: 999px;
-  font-size: var(--type-button-size);
+  border: 1px solid var(--button-border);
+  border-radius: var(--button-radius-base);
+  background: var(--button-bg);
+  color: var(--button-fg);
+  box-shadow: var(--button-shadow);
+  backdrop-filter: var(--button-backdrop);
+  font-size: 16px;
   font-weight: 600;
   line-height: var(--type-button-line-height);
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  position: relative;
   transition:
-    transform 160ms ease,
-    box-shadow 160ms ease,
-    background-color 160ms ease;
+    box-shadow 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 260ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.button:hover,
-.button:focus-visible {
-  transform: translateY(-1px);
+.ui-button__sizer {
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.button--light {
-  background: #fff;
-  color: #070817;
+
+.ui-button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 60%, white 40%);
+  outline-offset: 3px;
 }
 
-.button--glass {
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.17);
-  color: #fff;
-  backdrop-filter: blur(10px);
+.ui-button__text-window {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: hidden;
 }
 
-.button--primary {
-  background: var(--accent);
-  color: #fff;
-  box-shadow: 0 16px 32px rgba(37, 74, 246, 0.28);
+.ui-button__text-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 200%;
+  transform: translateY(0);
+  transition: transform 520ms cubic-bezier(.625,.05,0,1);
+  will-change: transform;
+}
+
+.ui-button__text-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 50%;
+  width: 100%;
+  line-height: 1;
+  padding: 0 32px;
+  white-space: nowrap;
+}
+
+.ui-button--radius-full {
+  --button-radius-base: 999px;
+}
+
+.ui-button--radius-sharp {
+  --button-radius-base: 2px;
+}
+
+.ui-button--bg-white {
+  --button-bg: var(--bg-white);
+  --button-fg: var(--title-darker);
+}
+
+.ui-button--bg-blue {
+  --button-bg: var(--accent);
+  --button-fg: var(--bg-white);
+  --button-shadow: 0 16px 32px rgba(37, 74, 246, 0.28);
+}
+
+.ui-button--bg-transparent-white {
+  --button-bg: rgba(255, 255, 255, 0.17);
+  --button-fg: var(--bg-white);
+  --button-border: rgba(255, 255, 255, 0.18);
+  --button-backdrop: blur(10px);
+}
+
+.ui-button--bg-transparent-black {
+  --button-bg: rgba(1, 1, 4, 0.22);
+  --button-fg: var(--bg-white);
+  --button-border: rgba(255, 255, 255, 0.16);
+  --button-backdrop: blur(12px);
+}
+
+.ui-button--full-width {
+  width: 100%;
 }
 
 .ticker-section {
   position: relative;
   z-index: 20;
-  background: var(--surface-light);
+  background: var(--bg-white);
   color: var(--title-darker);
   overflow: clip;
   height: calc(var(--ticker-steps, 5) * 100vh);
@@ -602,9 +665,7 @@ select {
 
 .stats-section {
   padding: 184px 0;
-  background:
-    radial-gradient(circle at 50% 6%, rgba(37, 74, 246, 0.2), transparent 18%),
-    #010104;
+  background: var(--bg-lighter)
 }
 
 .section-header {
@@ -659,10 +720,16 @@ select {
   padding: 56px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 40px;
-  background:
-    radial-gradient(circle at 80% 100%, rgba(37, 74, 246, 0.45), transparent 34%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01)),
-    #0b0d12;
+}
+
+.stat-card--left {
+  @apply bg-background-white-surface;
+  border-color: rgba(8, 12, 22, 0.08);
+}
+
+.stat-card--right {
+  @apply bg-accent;
+  border-color: transparent;
 }
 
 .stat-chip {
@@ -676,19 +743,32 @@ select {
   font-weight: 600;
 }
 
+.stat-card--left .stat-chip {
+  background: rgba(8, 12, 22, 0.08);
+  color: rgba(8, 12, 22, 0.66);
+}
+
+.stat-card--right .stat-chip {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .stat-card strong {
   display: block;
   margin-bottom: 14px;
-  color: #fff;
   font-size: clamp(3rem, 6vw, 4rem);
   font-weight: 500;
   line-height: 1;
 }
 
+.stat-card--left strong,
+.stat-card--left p {
+  @apply text-title-darker;
+}
+
 .stat-card p {
   margin: 0;
   max-width: 434px;
-  color: #d3d8e2;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -1346,9 +1426,13 @@ select {
     flex-direction: column;
   }
 
-  .button,
+  .ui-button,
   .hero-nav-cta {
     width: 100%;
+  }
+
+  .ui-button {
+    font-size: 14px;
   }
 
   .ticker-word {
@@ -1454,3 +1538,5 @@ select {
     grid-template-columns: 1fr;
   }
 }
+
+@tailwind utilities;

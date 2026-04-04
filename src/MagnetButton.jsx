@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import gsap from 'gsap';
 
-export default function index({children}) {
+export default function MagnetButton({children}) {
     const magnetic = useRef(null);
 
     useEffect( () => {
@@ -16,7 +16,7 @@ export default function index({children}) {
             xTo(x);
             yTo(y)
         })
-        magnetic.current.addEventListener("mouseleave", (e) => {
+        magnetic.current.addEventListener("mouseleave", () => {
             xTo(0);
             yTo(0)
         })
