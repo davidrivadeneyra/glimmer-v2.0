@@ -1,19 +1,30 @@
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import SectionHeader from './SectionHeader'
+import useSectionReveal from '../../hooks/useSectionReveal'
 
 function DeliverySection({ deliveryModes }) {
   const { t } = useTranslation()
+  const sectionRef = useRef(null)
+
+  useSectionReveal(sectionRef, [deliveryModes])
 
   return (
-    <section className="delivery-section">
+    <section className="delivery-section" ref={sectionRef}>
       <div className="page-shell delivery-shell">
         <div className="delivery-copy">
-          <SectionHeader eyebrow={t('delivery.eyebrow')} title={t('delivery.title')} />
+          <div data-reveal style={{ '--reveal-delay': '40ms' }}>
+            <SectionHeader eyebrow={t('delivery.eyebrow')} title={t('delivery.title')} />
+          </div>
 
           <div className="delivery-list">
-            {deliveryModes.map((item) => (
-              <article key={item.title}>
+            {deliveryModes.map((item, index) => (
+              <article
+                key={item.title}
+                data-reveal
+                style={{ '--reveal-delay': `${120 + index * 70}ms` }}
+              >
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
               </article>
@@ -21,7 +32,7 @@ function DeliverySection({ deliveryModes }) {
           </div>
         </div>
 
-        <div className="delivery-visual">
+        <div className="delivery-visual" data-reveal style={{ '--reveal-delay': '180ms' }}>
           <img className="delivery-orbit" src="/glimmer/orbit.svg" alt="" />
           <img className="delivery-icon delivery-icon--gmail" src="/glimmer/gmail-bg.svg" alt="" />
           <img className="delivery-icon delivery-icon--gmail-mark" src="/glimmer/gmail.svg" alt="" />

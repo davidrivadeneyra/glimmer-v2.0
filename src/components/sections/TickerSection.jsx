@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import Button from '../Button'
+import useSectionReveal from '../../hooks/useSectionReveal'
 
 function TickerSection({ words }) {
   const { t } = useTranslation()
@@ -10,6 +11,8 @@ function TickerSection({ words }) {
   const wordRefs = useRef([])
   const [activeIndex, setActiveIndex] = useState(0)
   const [trackOffset, setTrackOffset] = useState(0)
+
+  useSectionReveal(sectionRef, [words])
 
   useEffect(() => {
     let frameId = 0
@@ -91,8 +94,16 @@ function TickerSection({ words }) {
       <div className="ticker-sticky">
         <div className="page-shell ticker-shell">
           <div className="ticker-top">
-            <img className="ticker-logo spin-loop" src="/assets/isotipo-dark.svg" alt="" />
-            <p className="ticker-copy">{t('ticker.copy')}</p>
+            <img
+              className="ticker-logo spin-loop"
+              src="/assets/isotipo-dark.svg"
+              alt=""
+              data-reveal
+              style={{ '--reveal-delay': '40ms' }}
+            />
+            <p className="ticker-copy" data-reveal style={{ '--reveal-delay': '120ms' }}>
+              {t('ticker.copy')}
+            </p>
           </div>
 
           <div className="ticker-stage">
@@ -116,7 +127,7 @@ function TickerSection({ words }) {
             </div>
           </div>
 
-          <div className="ticker-bottom">
+          <div className="ticker-bottom" data-reveal style={{ '--reveal-delay': '200ms' }}>
             <Button href="mailto:hola@glimmer.ai" radius="full" background="blue">
               {t('ticker.cta')}
             </Button>

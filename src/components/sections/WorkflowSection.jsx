@@ -1,6 +1,8 @@
+import { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import SectionHeader from './SectionHeader'
+import useSectionReveal from '../../hooks/useSectionReveal'
 
 const workflowMedia = [
   { image: '/glimmer/deteccion.png', imageSide: 'right' },
@@ -8,7 +10,7 @@ const workflowMedia = [
   { image: '/glimmer/activacion.png', imageSide: 'right' },
 ]
 
-function WorkflowCard({ item }) {
+function WorkflowCard({ item, delay }) {
   const content = (
     <>
       <div className="workflow-copy">
@@ -32,7 +34,7 @@ function WorkflowCard({ item }) {
   )
 
   return (
-    <article className="workflow-card">
+    <article className="workflow-card" data-reveal style={{ '--reveal-delay': delay }}>
       {item.imageSide === 'left' ? (
         <>
           {media}
@@ -57,29 +59,35 @@ WorkflowCard.propTypes = {
     image: PropTypes.string.isRequired,
     imageSide: PropTypes.string.isRequired,
   }).isRequired,
+  delay: PropTypes.string.isRequired,
 }
 
 function WorkflowSection({ workflowItems }) {
   const { t } = useTranslation()
+  const sectionRef = useRef(null)
   const workflow = workflowItems.map((item, index) => ({
     ...item,
     ...workflowMedia[index],
   }))
 
+  useSectionReveal(sectionRef, [workflowItems])
+
   return (
-    <section className="workflow-section" id="producto">
+    <section className="workflow-section" id="producto" ref={sectionRef}>
       <div className="workflow-light" />
       <div className="page-shell">
-        <SectionHeader
-          eyebrow={t('workflow.eyebrow')}
-          title={t('workflow.title')}
-          description={t('workflow.description')}
-          centered
-        />
+        <div data-reveal style={{ '--reveal-delay': '40ms' }}>
+          <SectionHeader
+            eyebrow={t('workflow.eyebrow')}
+            title={t('workflow.title')}
+            description={t('workflow.description')}
+            centered
+          />
+        </div>
 
         <div className="workflow-stack">
-          {workflow.map((item) => (
-            <WorkflowCard item={item} key={item.id} />
+          {workflow.map((item, index) => (
+            <WorkflowCard item={item} key={item.id} delay={`${120 + index * 90}ms`} />
           ))}
         </div>
       </div>

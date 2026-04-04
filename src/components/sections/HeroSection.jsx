@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '../Button'
+import useSectionReveal from '../../hooks/useSectionReveal'
 
 const HERO_FRAME_COUNT = 626
 
@@ -42,6 +43,8 @@ function HeroSection() {
   const [heroTitleIndex, setHeroTitleIndex] = useState(0)
 
   const heroTitles = t('hero.titles', { returnObjects: true })
+
+  useSectionReveal(heroRef, [heroTitles])
 
   useEffect(() => {
     let frameId = 0
@@ -182,7 +185,7 @@ function HeroSection() {
           />
         </div>
         <div className="page-shell">
-          <header className="hero-nav">
+          <header className="hero-nav" data-reveal style={{ '--reveal-delay': '60ms' }}>
             <a className="hero-brand" href="#top" aria-label="Glimmer">
               <img src="/assets/isologotipo.svg" alt="Glimmer" />
             </a>
@@ -202,7 +205,7 @@ function HeroSection() {
           </header>
 
           <div className="hero-grid" id="top">
-            <div className="hero-copy">
+            <div className="hero-copy" data-reveal style={{ '--reveal-delay': '140ms' }}>
               <h1 className="hero-title">
                 <span className="hero-title-mask">
                   <span key={heroTitleIndex} className="hero-title-text">
@@ -217,7 +220,7 @@ function HeroSection() {
               <p>{t('hero.description')}</p>
             </div>
 
-            <div className="hero-actions">
+            <div className="hero-actions" data-reveal style={{ '--reveal-delay': '220ms' }}>
               <div className="hero-trust">
                 <p>{t('hero.trust')}</p>
                 <div className="hero-logo-row">
