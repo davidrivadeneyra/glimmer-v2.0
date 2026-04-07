@@ -2,8 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import Button from '../Button'
 import useSectionReveal from '../../hooks/useSectionReveal'
-
-const HERO_FRAME_COUNT = 626
+import { HERO_FRAME_COUNT, getHeroFrameSrc } from '../../lib/heroFrames'
 
 const clientLogos = [
   { name: '3IPunt', src: '/assets/logos-clientes/3IPunt.png' },
@@ -17,9 +16,6 @@ const clientLogos = [
   { name: 'Top Cable', src: '/assets/logos-clientes/top%20cable.png' },
   { name: 'dilobonito', src: '/assets/logos-clientes/dilobonito.png' },
 ]
-
-const getHeroFrameSrc = (index) =>
-  `/assets/video-frames/hero-sequence/frame-${String(index + 1).padStart(4, '0')}.webp`
 
 const HERO_TITLE_START_FRAMES = [
   0,

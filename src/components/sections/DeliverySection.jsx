@@ -33,13 +33,7 @@ function DeliverySection({ deliveryModes }) {
         </div>
 
         <div className="delivery-visual" data-reveal style={{ '--reveal-delay': '180ms' }}>
-          <img className="delivery-orbit" src="/glimmer/orbit.svg" alt="" />
-          <img className="delivery-icon delivery-icon--gmail" src="/glimmer/gmail-bg.svg" alt="" />
-          <img className="delivery-icon delivery-icon--gmail-mark" src="/glimmer/gmail.svg" alt="" />
-          <img className="delivery-icon delivery-icon--slack" src="/glimmer/slack.svg" alt="" />
-          <img className="delivery-icon delivery-icon--teams" src="/glimmer/teams.svg" alt="" />
-          <img className="delivery-icon delivery-icon--discord" src="/glimmer/discord-bg.svg" alt="" />
-          <img className="delivery-icon delivery-icon--discord-mark" src="/glimmer/discord.svg" alt="" />
+          <img className="delivery-animation" src="/assets/card-bg/animacion.svg" alt="" />
         </div>
       </div>
     </section>

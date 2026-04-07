@@ -111,14 +111,38 @@ const es = {
     title: 'Casos de uso',
     description:
       'Equipos que operan en entornos complejos utilizan Glimmer para monitorizar el mercado, competidores, detectar oportunidades y anticipar riesgos.',
-    core: 'Una tecnologia que reduce costes',
+    core: 'Sectores y equipos que necesitan detectar movimientos del mercado antes que el resto.',
     items: [
-      'Direccion general',
-      'Desarrollo de negocio',
-      'Compliance',
-      'Marketing',
-      'Innovacion',
-      'Producto',
+      {
+        title: 'Direccion general',
+        copy:
+          'Equipos directivos que necesitan contexto claro para priorizar decisiones, anticipar riesgos y reaccionar antes que el mercado.',
+      },
+      {
+        title: 'Desarrollo de negocio',
+        copy:
+          'Areas comerciales que monitorizan cuentas, competidores, ayudas, licitaciones y oportunidades para activar nuevas conversaciones.',
+      },
+      {
+        title: 'Compliance',
+        copy:
+          'Equipos que necesitan detectar cambios regulatorios, nuevas obligaciones y movimientos del sector con tiempo de anticipacion.',
+      },
+      {
+        title: 'Marketing',
+        copy:
+          'Responsables que siguen narrativas, campañas, posicionamientos y cambios competitivos para ajustar el mensaje con rapidez.',
+      },
+      {
+        title: 'Innovacion',
+        copy:
+          'Areas que observan tecnologias, startups, alianzas y nuevos modelos para identificar palancas reales de ventaja.',
+      },
+      {
+        title: 'Producto',
+        copy:
+          'Equipos que necesitan senales de mercado para detectar necesidades emergentes, cambios de demanda y espacios sin cubrir.',
+      },
     ],
   },
   delivery: {

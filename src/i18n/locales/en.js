@@ -110,14 +110,38 @@ const en = {
     title: 'Use cases',
     description:
       'Teams operating in complex environments use Glimmer to monitor the market, track competitors, detect opportunities, and anticipate risks.',
-    core: 'A technology that cuts costs',
+    core: 'Teams and industries that need to spot market shifts before everyone else.',
     items: [
-      'Executive leadership',
-      'Business development',
-      'Compliance',
-      'Marketing',
-      'Innovation',
-      'Product',
+      {
+        title: 'Executive leadership',
+        copy:
+          'Leadership teams that need clear context to prioritize decisions, anticipate risks, and react before the market does.',
+      },
+      {
+        title: 'Business development',
+        copy:
+          'Commercial teams tracking accounts, competitors, grants, tenders, and whitespace opportunities to open new conversations.',
+      },
+      {
+        title: 'Compliance',
+        copy:
+          'Teams that need early visibility into regulatory changes, new obligations, and relevant sector movements.',
+      },
+      {
+        title: 'Marketing',
+        copy:
+          'Teams following narratives, campaigns, positioning moves, and competitive shifts to refine messaging fast.',
+      },
+      {
+        title: 'Innovation',
+        copy:
+          'Teams observing technologies, startups, partnerships, and new models to identify real strategic leverage.',
+      },
+      {
+        title: 'Product',
+        copy:
+          'Teams using market signals to detect emerging needs, demand shifts, and unmet whitespace before competitors.',
+      },
     ],
   },
   delivery: {
