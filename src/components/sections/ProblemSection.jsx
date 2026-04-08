@@ -13,6 +13,14 @@ const painCardBackgrounds = [
   '/assets/card-bg/05.svg',
 ]
 
+const painCardLogos = [
+  '/assets/isotipo-red.svg',
+  '/assets/isotipo-blue.svg',
+  '/assets/isotipo-magenta.svg',
+  '/assets/isotipo-yellow.svg',
+  '/assets/isotipo-violet.svg',
+]
+
 function ProblemSection({ painPoints }) {
   const { t } = useTranslation()
   const sectionRef = useRef(null)
@@ -42,6 +50,7 @@ function ProblemSection({ painPoints }) {
               copy={item.copy ?? item.title}
               tone={item.tone}
               background={item.background ?? painCardBackgrounds[index % painCardBackgrounds.length]}
+              logoSrc={item.logoSrc ?? painCardLogos[index % painCardLogos.length]}
               revealDelay={`${120 + index * 70}ms`}
               stackIndex={index + 1}
             />
@@ -57,6 +66,7 @@ ProblemSection.propTypes = {
     PropTypes.shape({
       background: PropTypes.string,
       copy: PropTypes.string,
+      logoSrc: PropTypes.string,
       title: PropTypes.string.isRequired,
       tone: PropTypes.string.isRequired,
     }),
