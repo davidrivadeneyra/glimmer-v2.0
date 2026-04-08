@@ -4,11 +4,11 @@ Documentación técnica de cómo funciona `OpportunitySection.jsx`.
 
 ## Objetivo
 
-La sección `opportunity-section` reutiliza el mismo fondo animado del hero y hace que las frases de `opportunityLines` aparezcan una por una con el scroll.
+La sección `opportunity-section` usa su propia secuencia animada y hace que las frases de `opportunityLines` aparezcan una por una con el scroll.
 
 Comportamiento esperado:
 
-- el fondo avanza con la misma secuencia de frames del hero
+- el fondo avanza con la secuencia propia de opportunity
 - solo una frase está visible a la vez
 - cada frase entra, permanece un tramo y luego sale
 - al terminar una frase, empieza la siguiente
@@ -16,22 +16,22 @@ Comportamiento esperado:
 ## Archivos implicados
 
 - `src/components/sections/OpportunitySection.jsx`
-- `src/lib/heroFrames.js`
+- `src/lib/opportunityFrames.js`
 - `src/index.css`
 
 ## Fondo animado
 
-La sección usa el mismo origen de frames que el hero:
+La sección usa una secuencia propia:
 
-- `HERO_FRAME_COUNT = 626`
-- `getHeroFrameSrc(index)` devuelve la ruta `/assets/video-frames/hero-sequence/frame-XXXX.webp`
+- `OPPORTUNITY_FRAME_COUNT = 360`
+- `getOpportunityFrameSrc(index)` devuelve la ruta `/assets/video-frames/oportunity/frame-XXXX.webp`
 
-Esa lógica compartida vive en `src/lib/heroFrames.js`.
+Esa lógica vive en `src/lib/opportunityFrames.js`.
 
 Dentro de `OpportunitySection.jsx`:
 
 - se crea un `canvas`
-- se precargan los 626 frames con `new Image()`
+- se precargan los 360 frames con `new Image()`
 - en cada scroll se calcula un `frameIndex`
 - ese frame se dibuja en el canvas con `drawImage`
 
@@ -44,13 +44,13 @@ La sección calcula el progreso así:
 - toma el `getBoundingClientRect()` de la sección
 - calcula `scrollableDistance = rect.height - viewportHeight`
 - convierte eso a un valor normalizado entre `0` y `1`
-- ese progreso se mapea a un frame entre `0` y `625`
+- ese progreso se mapea a un frame entre `0` y `359`
 
 Fórmula conceptual:
 
 ```js
 progress = clamp(-rect.top / (rect.height - viewportHeight), 0, 1)
-frameIndex = round(progress * (HERO_FRAME_COUNT - 1))
+frameIndex = round(progress * (OPPORTUNITY_FRAME_COUNT - 1))
 ```
 
 ## Altura total de scroll
@@ -68,12 +68,12 @@ Eso significa:
 
 ## Reparto de frases por frames
 
-Cada frase recibe un segmento del total de 626 frames.
+Cada frase recibe un segmento del total de 360 frames.
 
 Lógica actual:
 
 ```js
-segmentSize = HERO_FRAME_COUNT / lineCount
+segmentSize = OPPORTUNITY_FRAME_COUNT / lineCount
 segmentStart = lineIndex * segmentSize
 localProgress = clamp((frameIndex - segmentStart) / segmentSize, 0, 1)
 ```
@@ -161,7 +161,7 @@ Si quieres cambiar la sensación de la sección, estos son los puntos principale
 
 `OpportunitySection` es una sección sticky con canvas a pantalla completa que:
 
-- comparte la secuencia visual del hero
+- usa la secuencia visual propia de opportunity
 - sincroniza esa secuencia con el scroll local
 - divide los frames entre las frases disponibles
 - muestra una única frase por vez, con entrada y salida progresiva

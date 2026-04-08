@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import useSectionReveal from '../../hooks/useSectionReveal'
-import { HERO_FRAME_COUNT, getHeroFrameSrc } from '../../lib/heroFrames'
+import { OPPORTUNITY_FRAME_COUNT, getOpportunityFrameSrc } from '../../lib/opportunityFrames'
 
 const getOpportunityScrollSpan = (lineCount) => `${Math.max(lineCount * 55, 220)}vh`
 
@@ -11,7 +11,7 @@ const getOpportunityLineProgress = (frameIndex, lineIndex, lineCount) => {
     return { opacity: 0, translateY: 56 }
   }
 
-  const segmentSize = HERO_FRAME_COUNT / lineCount
+  const segmentSize = OPPORTUNITY_FRAME_COUNT / lineCount
   const segmentStart = lineIndex * segmentSize
   const localProgress = Math.min(
     Math.max((frameIndex - segmentStart) / Math.max(segmentSize, 1), 0),
@@ -114,8 +114,8 @@ function OpportunitySection({ opportunityLines }) {
       const scrollableDistance = Math.max(rect.height - viewportHeight, 1)
       const progress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1)
       const nextFrameIndex = Math.min(
-        HERO_FRAME_COUNT - 1,
-        Math.round(progress * (HERO_FRAME_COUNT - 1)),
+        OPPORTUNITY_FRAME_COUNT - 1,
+        Math.round(progress * (OPPORTUNITY_FRAME_COUNT - 1)),
       )
 
       if (frameIndexRef.current !== nextFrameIndex) {
@@ -130,10 +130,10 @@ function OpportunitySection({ opportunityLines }) {
       animationFrameId = window.requestAnimationFrame(updateOpportunityProgress)
     }
 
-    frameImagesRef.current = Array.from({ length: HERO_FRAME_COUNT }, (_, index) => {
+    frameImagesRef.current = Array.from({ length: OPPORTUNITY_FRAME_COUNT }, (_, index) => {
       const image = new Image()
       image.decoding = 'async'
-      image.src = getHeroFrameSrc(index)
+      image.src = getOpportunityFrameSrc(index)
       image.onload = () => {
         if (isDisposed) {
           return
