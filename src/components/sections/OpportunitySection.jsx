@@ -179,7 +179,7 @@ function OpportunitySection({ opportunityLines }) {
           <div className="opportunity-meta" data-reveal style={{ '--reveal-delay': '40ms' }}>
             <span className="section-eyebrow">{t('opportunity.eyebrow')}</span>
             <p>{t('opportunity.lead')}</p>
-            <img className="ticker-logo spin-loop h-12 w-12 mb-12" src="/assets/isotipo.svg" alt="" />
+            <img className="ticker-logo spin-loop h-12 w-12" src="/assets/isotipo.svg" alt="" />
           </div>
 
           <div className="opportunity-lines">
