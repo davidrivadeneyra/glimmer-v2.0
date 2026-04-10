@@ -11,7 +11,7 @@ function FaqCtaSection() {
 
   return (
     <section className="faq-cta-section" ref={sectionRef}>
-      <div className="page-shell">
+      <div className="">
         <div className="faq-cta-card" data-reveal style={{ '--reveal-delay': '60ms' }}>
           <div className="faq-cta-media" aria-hidden="true">
             <video
