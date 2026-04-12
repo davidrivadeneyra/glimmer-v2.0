@@ -228,6 +228,14 @@ select {
   will-change: transform;
 }
 
+.spin-loop-slow {
+  --spin-duration: 35s;
+  --spin-scale: 1;
+  animation: spin-loop var(--spin-duration) linear infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
 [data-reveal] {
   --reveal-delay: 0ms;
   opacity: 0;
@@ -1097,36 +1105,35 @@ select {
 }
 
 .problem-section-new {
-  height: 100vh;
-  background: var(--bg-dark);
-  overflow: clip;
+  --problem-intro-top: 128px;
+  --pain-card-top: 160px;
+  background: var(--bg-darker);
+  overflow: visible;
+  /* border: 1px solid red; */
 }
 
 .problem-section-new .page-shell {
-  height: 100%;
-}
-
-.problem-shell-new {
   position: relative;
-  height: 100vh;
 }
 
-.problem-header-shell-new,
-.pain-stack-new {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100vh;
+.page-shell--problem-intro {
+  /* min-height: 100vh; */
 }
 
 .problem-header-shell-new {
+  position: sticky;
+  top: var(--problem-intro-top);
   z-index: 3;
+  width: 100%;
+  /* height: 80vh; */
 }
 
 .problem-section-header-new {
   justify-content: center;
   min-height: 100vh;
-  padding: 0 clamp(1.5rem, 4vw, 4rem);
+  /* padding: 0 clamp(1.5rem, 4vw, 4rem); */
+  padding-top: 128px;
+  padding-bottom: 128px;
 }
 
 .problem-title-new {
@@ -1134,35 +1141,36 @@ select {
   line-height: 0.92;
 }
 
-.problem-title-word {
-  display: inline-block;
-}
-
 .pain-stack-new {
-  position: absolute;
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: clamp(1.5rem, 4vw, 4rem);
+  width: 100%;
+  gap: 0;
+  /* padding-bottom: 25vh; */
 }
 
 .pain-stack-new .pain-card {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: sticky;
+  /* top: var(--pain-card-top); */
+  top: 25%;
   width: min(445px, calc(100vw - 48px));
   margin: 0;
 }
 
-.pain-stack-new .pain-card[data-reveal],
-.pain-stack-new .pain-card[data-reveal].is-visible {
-  opacity: 1;
-  transition: none;
+.page-shell--problem-stack {
+  /* min-height: 280vh; */
 }
 
 @media (max-width: 768px) {
   .problem-title-new {
     max-width: 100%;
+  }
+
+  .problem-section-new {
+    --problem-intro-top: 0px;
+    --pain-card-top: 128px;
   }
 
   .pain-stack-new .pain-card {
