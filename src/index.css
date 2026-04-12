@@ -265,7 +265,7 @@ select {
   }
 
   .type-title-bigger-size {
-    @apply type-title text-[3rem] lg:text-[5.5rem] leading-[100%] tracking-[-0.02em];
+    @apply type-title text-[3rem] lg:text-[5rem] leading-[100%] tracking-[-0.02em];
   }
 
   .type-title-big-size {
@@ -1285,7 +1285,7 @@ select {
 }
 
 .problem-title-new {
-  max-width: min(12ch, 100%);
+  width: 100%;
   line-height: 0.92;
 }
 

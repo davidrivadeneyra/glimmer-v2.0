@@ -37,7 +37,7 @@ function DeliverySection({ deliveryModes }) {
         </div>
 
         <div className="delivery-visual" data-reveal style={{ '--reveal-delay': '180ms' }}>
-          <div className="absolute aspect-square top-0 left-0 right-0 w-100% md:left-0 md:w-[1200px]" aria-hidden="true">
+          <div className="absolute aspect-square top-0 left-0 right-0 w-100% md:left-0 md:top-1/2 md:-translate-y-1/2 md:w-[1200px]" aria-hidden="true">
             <img
               className="delivery-orbit-layer delivery-orbit-layer--outer"
               src="/assets/orbit/ultimo.svg"
