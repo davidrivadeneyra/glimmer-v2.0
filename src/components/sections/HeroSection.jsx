@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Menu } from 'lucide-react'
 import Button from '../Button'
 import HeroNavLink from '../HeroNavLink'
 import useSectionReveal from '../../hooks/useSectionReveal'
@@ -316,9 +317,10 @@ function HeroSection() {
               type="button"
               aria-expanded={isMobileMenuOpen}
               aria-controls="hero-nav-menu"
+              aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
               onClick={() => setIsMobileMenuOpen((current) => !current)}
             >
-              {isMobileMenuOpen ? 'Cerrar' : 'Abrir'}
+              <Menu size={20} strokeWidth={2.25} aria-hidden="true" />
             </button>
             <div
               className={`hero-nav-menu ${isMobileMenuOpen ? 'is-open' : ''}`}

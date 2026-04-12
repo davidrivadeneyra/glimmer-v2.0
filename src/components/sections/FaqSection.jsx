@@ -41,7 +41,7 @@ function FaqSection({ faqs }) {
   return (
     <section className="faq-section" ref={sectionRef}>
       <div className="page-shell faq-shell">
-        <div className="faq-copy" data-reveal style={{ '--reveal-delay': '40ms' }}>
+        <div className="faq-copy md:top-[120px]" data-reveal style={{ '--reveal-delay': '40ms' }}>
           <span className="type-subheadline-size type-subheadline-gray">{t('faqs.eyebrow')}</span>
           <h2 className="type-title-big-size type-title-light pt-6">
             {t('faqs.titleLines')}
