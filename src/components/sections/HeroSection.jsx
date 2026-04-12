@@ -369,6 +369,11 @@ function HeroSection() {
             className={`hero-isotipo__image ${isHeroInViewport ? 'spin-loop is-motion-active' : 'spin-loop'}`}
             src="/assets/isotipo-blur.svg"
             alt=""
+            width="88"
+            height="88"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             style={{ '--spin-scale': heroLogoScale }}
           />
         </div>

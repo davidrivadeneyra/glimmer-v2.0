@@ -483,17 +483,19 @@ select {
   overflow: hidden;
 }
 
+/* Tenía estas 2 propiedades respoectivamente */
+/* overflow: hidden; */
+/* overflow: clip; */
+
 .hero-ticker-stage__viewport {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100vw;
-  /* overflow: hidden; */
 }
 
 .hero-ticker-mask {
   display: block;
-  /* overflow: clip; */
   text-align: center;
 }
 
