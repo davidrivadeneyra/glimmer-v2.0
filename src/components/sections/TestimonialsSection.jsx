@@ -31,7 +31,7 @@ function TestimonialsSection({ testimonials }) {
   const marqueeItems = [...testimonials, ...testimonials]
 
   return (
-    <section className="testimonials-section" ref={sectionRef}>
+    <section className="testimonials-section" id="testimonios" ref={sectionRef}>
       <div className="page-shell">
         <div data-reveal style={{ '--reveal-delay': '40ms' }}>
           <div className="section-header section-header--center">

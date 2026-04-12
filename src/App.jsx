@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import HeroNav from './components/HeroNav'
 import DeliverySection from './components/sections/DeliverySection'
 import FaqCtaSection from './components/sections/FaqCtaSection'
 import FaqSection from './components/sections/FaqSection'
@@ -46,6 +47,7 @@ function App() {
 
   return (
     <>
+      <HeroNav />
       <main className="glimmer-page">
         <HeroSection />
         <StatsSection stats={stats} />

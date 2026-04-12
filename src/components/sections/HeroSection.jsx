@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Menu } from 'lucide-react'
 import Button from '../Button'
-import HeroNavLink from '../HeroNavLink'
 import useInViewport from '../../hooks/useInViewport'
 import useSectionReveal from '../../hooks/useSectionReveal'
 import useViewportVideo from '../../hooks/useViewportVideo'
@@ -124,10 +122,6 @@ const getHeroTickerStyle = (frameIndex) => {
 
 function HeroSection() {
   const { t } = useTranslation()
-  const currentPath = window.location.pathname
-  const isEnglishActive = currentPath.startsWith('/en')
-  const englishHref = '/en'
-  const spanishHref = '/'
   const heroRef = useRef(null)
   const heroCanvasRef = useRef(null)
   const heroVideoRef = useRef(null)
@@ -142,7 +136,6 @@ function HeroSection() {
   const [heroContentStyle, setHeroContentStyle] = useState(() => getHeroContentStyle(0))
   const [heroTickerStyle, setHeroTickerStyle] = useState(() => getHeroTickerStyle(0))
   const [heroTickerIndex, setHeroTickerIndex] = useState(0)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const heroTitles = t('hero.titles', { returnObjects: true })
   const tickerWords = t('ticker.words', { returnObjects: true })
@@ -398,66 +391,6 @@ function HeroSection() {
           </div>
         </div>
         <div className="page-shell">
-          <header className="hero-nav" data-reveal style={{ '--reveal-delay': '60ms' }}>
-            <a className="hero-brand" href="#top" aria-label="Glimmer">
-              <img src="/assets/isologotipo.svg" alt="Glimmer" />
-            </a>
-            <button
-              className="hero-nav-toggle"
-              type="button"
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="hero-nav-menu"
-              aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
-              onClick={() => setIsMobileMenuOpen((current) => !current)}
-            >
-              <Menu size={20} strokeWidth={2.25} aria-hidden="true" />
-            </button>
-            <div
-              className={`hero-nav-menu ${isMobileMenuOpen ? 'is-open' : ''}`}
-              id="hero-nav-menu"
-            >
-              <nav className="hero-links">
-                <HeroNavLink href="#casos" onClick={() => setIsMobileMenuOpen(false)}>
-                  {t('nav.casos')}
-                </HeroNavLink>
-                <HeroNavLink href="#producto" onClick={() => setIsMobileMenuOpen(false)}>
-                  {t('nav.producto')}
-                </HeroNavLink>
-                <HeroNavLink href="#impacto" onClick={() => setIsMobileMenuOpen(false)}>
-                  {t('nav.impacto')}
-                </HeroNavLink>
-              </nav>
-              <nav className="hero-language-links" aria-label="Language selector">
-                <HeroNavLink
-                  href={englishHref}
-                  className={isEnglishActive ? 'is-active-language' : ''}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  EN
-                </HeroNavLink>
-                <span className="hero-language-divider" aria-hidden="true">
-                  •
-                </span>
-                <HeroNavLink
-                  href={spanishHref}
-                  className={!isEnglishActive ? 'is-active-language' : ''}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  ES
-                </HeroNavLink>
-              </nav>
-              <Button
-                href="mailto:hola@glimmer.ai"
-                className="hero-nav-cta"
-                radius="full"
-                background="transparentBlack"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {t('nav.cta')}
-              </Button>
-            </div>
-          </header>
-
           <div
             className="hero-grid"
             id="top"

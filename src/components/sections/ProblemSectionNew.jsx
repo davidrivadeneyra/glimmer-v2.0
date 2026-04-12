@@ -122,6 +122,7 @@ function ProblemSection({ painPoints }) {
               logoSrc={item.logoSrc ?? painCardLogos[index % painCardLogos.length]}
               revealDelay={`${120 + index * 70}ms`}
               stackIndex={index + 1}
+              isMotionActive={isSectionInViewport}
             />
           ))}
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import useInViewport from '../../hooks/useInViewport'
 import useSectionReveal from '../../hooks/useSectionReveal'
 import useViewportVideo from '../../hooks/useViewportVideo'
 
@@ -33,6 +34,7 @@ function OpportunitySection({ opportunityLines }) {
 
   useSectionReveal(sectionRef, [opportunityLines])
   useViewportVideo(videoRef)
+  const isSectionInViewport = useInViewport(sectionRef, { threshold: 0.15 })
 
   useEffect(() => {
     let animationFrameId = 0
@@ -118,7 +120,11 @@ function OpportunitySection({ opportunityLines }) {
 
         <div className="page-shell h-svh flex flex-col justify-center">
           <div className="opportunity-meta" data-reveal style={{ '--reveal-delay': '40ms' }}>
-            <img className="ticker-logo spin-loop h-12 w-12 mb-8" src="/assets/isotipo.svg" alt="" />
+            <img
+              className={`ticker-logo spin-loop h-12 w-12 mb-8 ${isSectionInViewport ? 'is-motion-active' : ''}`}
+              src="/assets/isotipo.svg"
+              alt=""
+            />
             <span className="type-subheadline-size opacity-40">{t('opportunity.eyebrow')}</span>
             <p>{t('opportunity.lead')}</p>
             

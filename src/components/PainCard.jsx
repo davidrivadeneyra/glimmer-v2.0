@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 
-function PainCard({ copy, tone, background, logoSrc, revealDelay, stackIndex }) {
+function PainCard({ copy, tone, background, logoSrc, revealDelay, stackIndex, isMotionActive }) {
   return (
     <article
       className={`pain-card pain-card--${tone}`}
@@ -11,8 +11,7 @@ function PainCard({ copy, tone, background, logoSrc, revealDelay, stackIndex }) 
         '--pain-z-index': stackIndex,
       }}
     >
-      {/* <span className="pain-dot" /> */}
-      <img className="ticker-logo spin-loop h-12 w-12 mb-12" src={logoSrc} alt="" />
+      <img className={`ticker-logo spin-loop h-12 w-12 mb-12 ${isMotionActive ? 'is-motion-active' : ''}`} src={logoSrc} alt="" />
       <p>{copy}</p>
     </article>
   )
@@ -25,6 +24,7 @@ PainCard.propTypes = {
   revealDelay: PropTypes.string.isRequired,
   stackIndex: PropTypes.number.isRequired,
   tone: PropTypes.string.isRequired,
+  isMotionActive: PropTypes.bool.isRequired,
 }
 
 PainCard.defaultProps = {

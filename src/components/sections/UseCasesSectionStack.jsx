@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
+import useInViewport from '../../hooks/useInViewport'
 import useSectionReveal from '../../hooks/useSectionReveal'
 
 const useCaseCardBackgrounds = [
@@ -73,6 +74,7 @@ function UseCasesSectionStack({ useCases }) {
   })
   const [activeIndex, setActiveIndex] = useState(0)
   const [cardHeight, setCardHeight] = useState(null)
+  const isSectionInViewport = useInViewport(sectionRef, { threshold: 0.15 })
   const preventNativeDrag = (event) => {
     event.preventDefault()
   }
@@ -208,7 +210,7 @@ function UseCasesSectionStack({ useCases }) {
   }
 
   return (
-    <section className="use-cases-stack-section" ref={sectionRef}>
+    <section className="use-cases-stack-section" id="casos-de-uso" ref={sectionRef}>
       <div className="page-shell use-cases-stack-shell">
         <div className="use-cases-stack-header-shell" data-reveal style={{ '--reveal-delay': '40ms' }}>
           <div className="section-header section-header--center">
@@ -250,7 +252,7 @@ function UseCasesSectionStack({ useCases }) {
                 }}
               >
                 <img
-                  className="ticker-logo spin-loop h-12 w-12"
+                  className={`ticker-logo spin-loop h-12 w-12 ${isSectionInViewport ? 'is-motion-active' : ''}`}
                   draggable={false}
                   onDragStart={preventNativeDrag}
                   src="/assets/isotipo.svg"
