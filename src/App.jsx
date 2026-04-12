@@ -51,7 +51,6 @@ function App() {
         <HeroSection />
         <StatsSection stats={stats} />
         <ProblemSectionNew painPoints={painPoints} />
-        {/* <ProblemSection painPoints={painPoints} /> */}
         <WorkflowSection workflowItems={workflowItems} />
         <OpportunitySection opportunityLines={opportunityLines} />
         <UseCasesSectionStack useCases={useCases} />

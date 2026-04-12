@@ -107,7 +107,7 @@ function OpportunitySection({ opportunityLines }) {
             playsInline
             preload="auto"
           >
-            <source src="/oportunity-section.mp4" type="video/mp4" />
+            <source src="/assets/video/opportunity-section.webm" type="video/webm" />
           </video>
           <div className="opportunity-media-wash" />
         </div>
