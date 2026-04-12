@@ -130,6 +130,7 @@ function HeroSection() {
   const [heroContentStyle, setHeroContentStyle] = useState(() => getHeroContentStyle(0))
   const [heroTickerStyle, setHeroTickerStyle] = useState(() => getHeroTickerStyle(0))
   const [heroTickerIndex, setHeroTickerIndex] = useState(0)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const heroTitles = t('hero.titles', { returnObjects: true })
   const tickerWords = t('ticker.words', { returnObjects: true })
@@ -310,19 +311,40 @@ function HeroSection() {
             <a className="hero-brand" href="#top" aria-label="Glimmer">
               <img src="/assets/isologotipo.svg" alt="Glimmer" />
             </a>
-            <nav className="hero-links">
-              <HeroNavLink href="#casos">{t('nav.casos')}</HeroNavLink>
-              <HeroNavLink href="#producto">{t('nav.producto')}</HeroNavLink>
-              <HeroNavLink href="#impacto">{t('nav.impacto')}</HeroNavLink>
-            </nav>
-            <Button
-              href="mailto:hola@glimmer.ai"
-              className="hero-nav-cta"
-              radius="full"
-              background="transparentBlack"
+            <button
+              className="hero-nav-toggle"
+              type="button"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="hero-nav-menu"
+              onClick={() => setIsMobileMenuOpen((current) => !current)}
             >
-              {t('nav.cta')}
-            </Button>
+              {isMobileMenuOpen ? 'Cerrar' : 'Abrir'}
+            </button>
+            <div
+              className={`hero-nav-menu ${isMobileMenuOpen ? 'is-open' : ''}`}
+              id="hero-nav-menu"
+            >
+              <nav className="hero-links">
+                <HeroNavLink href="#casos" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.casos')}
+                </HeroNavLink>
+                <HeroNavLink href="#producto" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.producto')}
+                </HeroNavLink>
+                <HeroNavLink href="#impacto" onClick={() => setIsMobileMenuOpen(false)}>
+                  {t('nav.impacto')}
+                </HeroNavLink>
+              </nav>
+              <Button
+                href="mailto:hola@glimmer.ai"
+                className="hero-nav-cta"
+                radius="full"
+                background="transparentBlack"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {t('nav.cta')}
+              </Button>
+            </div>
           </header>
 
           <div
@@ -334,8 +356,8 @@ function HeroSection() {
               transition: 'opacity 120ms linear, transform 120ms linear',
             }}
           >
-            <div data-reveal style={{ '--reveal-delay': '140ms' }}>
-              <h1 className="hero-title type-title-bigger-size type-title-light pb-6">
+            <div data-reveal style={{ '--reveal-delay': '140ms' }} className='w-full'>
+              <h1 className="hero-title type-title-bigger-size type-title-light pb-6 w-full">
                 <span className="hero-title-mask">
                   <span key={heroTitleIndex} className="hero-title-text">
                     {heroTitles[heroTitleIndex].map((line) => (
@@ -346,7 +368,7 @@ function HeroSection() {
                   </span>
                 </span>
               </h1>
-              <p>{t('hero.description')}</p>
+              <p className='type-description-size w-full'>{t('hero.description')}</p>
             </div>
 
             <div className="hero-actions" data-reveal style={{ '--reveal-delay': '220ms' }}>

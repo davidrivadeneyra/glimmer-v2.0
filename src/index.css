@@ -130,6 +130,10 @@ select {
     @apply relative z-[2] mx-auto max-w-7xl px-6;
   }
 
+  .hero-grid {
+    @apply relative z-[6] flex flex-col justify-between md:grid md:grid-cols-2 items-end gap-11 min-h-[calc(100vh-120px)] pb-8 md:pb-36;
+  }
+
   .type-title {
     font-family: var(--font-sans);
     font-style: normal;
@@ -436,11 +440,43 @@ select {
   width: 112px;
 }
 
+.hero-nav-menu {
+  display: contents;
+}
+
 .hero-links {
   display: flex;
   gap: 16px;
   color: rgba(255, 255, 255, 0.6);
   font-size: 14px;
+}
+
+.hero-nav-toggle {
+  display: none;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--bg-lighter);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-nav-toggle:hover,
+.hero-nav-toggle:focus-visible {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.hero-nav-toggle:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 60%, white 40%);
+  outline-offset: 4px;
 }
 
 .ui-nav-link {
@@ -501,17 +537,6 @@ select {
   min-height: 44px;
   padding: 12px 20px;
   border-radius: 999px;
-}
-
-.hero-grid {
-  position: relative;
-  z-index: 6;
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.9fr);
-  align-items: end;
-  gap: 44px;
-  min-height: calc(100vh - 120px);
-  padding-bottom: 144px;
 }
 
 .hero-title {
@@ -2105,7 +2130,6 @@ select {
 }
 
 @media (max-width: 1024px) {
-  .hero-grid,
   .workflow-card,
   .opportunity-shell,
   .delivery-shell,
@@ -2113,17 +2137,10 @@ select {
     grid-template-columns: 1fr;
   }
 
-  .hero-nav {
-    width: 100%;
-  }
-
-  .hero-grid {
-    min-height: calc(100vh - 184px);
-  }
 
   .hero-actions,
   .hero-copy {
-    max-width: 700px;
+    width: 100%;
   }
 
   .workflow-media,
@@ -2166,7 +2183,7 @@ select {
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
 
   .glimmer-page {
     margin-bottom: var(--logo-footer-height, 24vh);
@@ -2220,11 +2237,6 @@ select {
     width: 100%;
     justify-content: center;
     order: 3;
-  }
-
-  .hero-grid {
-    min-height: calc(100vh - 196px);
-    padding-bottom: 128px;
   }
 
   .hero-button-row {
@@ -2515,6 +2527,47 @@ select {
 
   .testimonials-column {
     flex-basis: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-nav {
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding: 10px 12px 10px 18px;
+  }
+
+  .hero-nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-nav-menu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    gap: 16px;
+    order: 3;
+    padding-top: 16px;
+  }
+
+  .hero-nav-menu.is-open {
+    display: flex;
+  }
+
+  .hero-links {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    order: initial;
+  }
+
+  .hero-links .ui-nav-link {
+    color: var(--bg-lighter);
+    font-size: 16px;
   }
 }
 
