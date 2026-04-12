@@ -1107,7 +1107,7 @@ select {
 .problem-section-new {
   --problem-intro-top: 128px;
   --pain-card-top: 160px;
-  background: var(--bg-darker);
+  background: var(--bg-darkmiddle);
   overflow: visible;
   /* border: 1px solid red; */
 }
@@ -1752,6 +1752,7 @@ select {
   padding: 184px 0;
   overflow: clip;
   background: #010104;
+  position: relative
 }
 
 .delivery-shell {

@@ -112,11 +112,12 @@ function OpportunitySection({ opportunityLines }) {
           <div className="opportunity-media-wash" />
         </div>
 
-        <div className="page-shell opportunity-shell">
+        <div className="page-shell h-svh flex flex-col justify-center">
           <div className="opportunity-meta" data-reveal style={{ '--reveal-delay': '40ms' }}>
-            <span className="type-subheadline-size">{t('opportunity.eyebrow')}</span>
+            <img className="ticker-logo spin-loop h-12 w-12 mb-8" src="/assets/isotipo.svg" alt="" />
+            <span className="type-subheadline-size opacity-40">{t('opportunity.eyebrow')}</span>
             <p>{t('opportunity.lead')}</p>
-            <img className="ticker-logo spin-loop h-12 w-12" src="/assets/isotipo.svg" alt="" />
+            
           </div>
 
           <div className="opportunity-lines">
