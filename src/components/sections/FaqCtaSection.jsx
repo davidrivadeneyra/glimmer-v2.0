@@ -13,19 +13,12 @@ const clientLogos = [
   { name: 'Grupo wayra_logo', src: '/assets/logos-partners/wayra_logo.jpeg' },
 ]
 
-const footerLinks = [
-  { href: 'https://www.linkedin.com', label: 'Linkedin' },
-  { href: '/aviso-legal', label: 'Aviso legal' },
-  { href: '/privacidad-y-politica-de-cookies', label: 'Privacidad y política de cookies' },
-  { href: '/politica-de-privacidad', label: 'Política de privacidad' },
-  { href: '/terminos-y-condiciones', label: 'Términos y condiciones' },
-]
-
 function FaqCtaSection() {
   const { t } = useTranslation()
   const sectionRef = useRef(null)
   const videoRef = useRef(null)
   const isSectionInViewport = useInViewport(sectionRef, { threshold: 0.15 })
+  const footerLinks = t('faqCta.links', { returnObjects: true })
 
   useSectionReveal(sectionRef)
   useViewportVideo(videoRef)

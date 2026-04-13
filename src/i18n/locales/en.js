@@ -230,6 +230,13 @@ const en = {
   faqCta: {
     title: 'Where market signals become action',
     description: '',
+    links: [
+      { href: 'https://www.linkedin.com', label: 'LinkedIn' },
+      { href: '/en/legal-notice', label: 'Legal Notice' },
+      { href: '/en/privacy-and-cookie-policy', label: 'Privacy and Cookie Policy' },
+      { href: '/en/privacy-policy', label: 'Privacy Policy' },
+      { href: '/en/terms-and-conditions', label: 'Terms and Conditions' },
+    ],
   },
   testimonials: {
     eyebrow: 'Testimonials',

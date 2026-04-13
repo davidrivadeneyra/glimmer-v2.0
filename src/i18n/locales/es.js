@@ -235,6 +235,13 @@ const es = {
   faqCta: {
     title: 'Donde las señales del mercado se convierten en acción',
     description: '',
+    links: [
+      { href: 'https://www.linkedin.com', label: 'LinkedIn' },
+      { href: '/aviso-legal', label: 'Aviso legal' },
+      { href: '/privacidad-y-politica-de-cookies', label: 'Privacidad y política de cookies' },
+      { href: '/politica-de-privacidad', label: 'Política de privacidad' },
+      { href: '/terminos-y-condiciones', label: 'Términos y condiciones' },
+    ],
   },
   testimonials: {
     eyebrow: 'Testimonios',
