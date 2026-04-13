@@ -3,7 +3,9 @@ const es = {
     title: 'Glimmer | Sistema de Inteligencia de Mercado impulsado por Inteligencia Artificial',
   },
   nav: {
+    solution: 'La solución',
     casos: 'Casos de uso',
+    faq: 'Preguntas frecuentes',
     producto: 'Cómo funciona',
     impacto: 'Impacto',
     cta: 'Solicitar demo',

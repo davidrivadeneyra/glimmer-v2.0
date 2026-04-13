@@ -66,14 +66,14 @@ function HeroNav() {
           id="hero-nav-menu"
         >
           <nav className="hero-links">
-            <HeroNavLink href="#casos" onClick={() => setIsMobileMenuOpen(false)}>
+            <HeroNavLink href="#producto" onClick={() => setIsMobileMenuOpen(false)}>
+              {t('nav.solution')}
+            </HeroNavLink>
+            <HeroNavLink href="#casos-de-uso" onClick={() => setIsMobileMenuOpen(false)}>
               {t('nav.casos')}
             </HeroNavLink>
-            <HeroNavLink href="#producto" onClick={() => setIsMobileMenuOpen(false)}>
-              {t('nav.producto')}
-            </HeroNavLink>
-            <HeroNavLink href="#impacto" onClick={() => setIsMobileMenuOpen(false)}>
-              {t('nav.impacto')}
+            <HeroNavLink href="#faq" onClick={() => setIsMobileMenuOpen(false)}>
+              {t('nav.faq')}
             </HeroNavLink>
           </nav>
           <nav className="hero-language-links" aria-label="Language selector">

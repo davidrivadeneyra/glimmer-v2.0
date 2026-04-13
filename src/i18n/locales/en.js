@@ -3,7 +3,9 @@ const en = {
     title: 'Glimmer | AI powered Market Intelligence System',
   },
   nav: {
+    solution: 'Solution',
     casos: 'Use cases',
+    faq: 'Frequently Questions',
     producto: 'How it works',
     impacto: 'Impact',
     cta: 'Request demo',

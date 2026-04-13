@@ -39,7 +39,7 @@ function FaqSection({ faqs }) {
   useSectionReveal(sectionRef, [faqs])
 
   return (
-    <section className="faq-section" ref={sectionRef}>
+    <section className="faq-section" id="faq" ref={sectionRef}>
       <div className="page-shell faq-shell">
         <div className="faq-copy md:top-[120px]" data-reveal style={{ '--reveal-delay': '40ms' }}>
           <span className="type-subheadline-size type-subheadline-gray">{t('faqs.eyebrow')}</span>
