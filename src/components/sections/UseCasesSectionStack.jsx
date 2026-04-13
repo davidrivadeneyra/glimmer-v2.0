@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import useInViewport from '../../hooks/useInViewport'
 import useSectionReveal from '../../hooks/useSectionReveal'
@@ -241,7 +242,7 @@ function UseCasesSectionStack({ useCases }) {
                 showPreviousCase()
               }}
             >
-              &#8592;
+              <ArrowLeft aria-hidden="true" size={16} strokeWidth={2.25} />
             </button>
             <strong>{String(activeIndex + 1).padStart(2, '0')}</strong>
             <span>/</span>
@@ -258,7 +259,7 @@ function UseCasesSectionStack({ useCases }) {
                 showNextCase()
               }}
             >
-              &#8594;
+              <ArrowRight aria-hidden="true" size={16} strokeWidth={2.25} />
             </button>
           </div>
 
