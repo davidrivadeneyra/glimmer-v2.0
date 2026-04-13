@@ -12,7 +12,7 @@ function PainCard({ copy, tone, background, logoSrc, revealDelay, stackIndex, is
       }}
     >
       <img className={`ticker-logo spin-loop h-12 w-12 mb-12 ${isMotionActive ? 'is-motion-active' : ''}`} src={logoSrc} alt="" />
-      <p>{copy}</p>
+      <h3 className="type-title-regular-size type-title-light">{copy}</h3>
     </article>
   )
 }
