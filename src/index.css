@@ -296,6 +296,28 @@ select {
     @apply type-button text-[14px] lg:text-[1rem] leading-[100%];
   }
 
+  .testimonial-card {
+    @apply relative flex h-fit self-start flex-col gap-[96px] w-[356px] overflow-hidden rounded-[40px] border border-black/10 p-10;
+    background: #ffffff url('/assets/card-bg/testimonial.svg') center / cover no-repeat;
+    border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  .testimonial-quote {
+    @apply w-16;
+  }
+
+  .testimonial-body {
+    @apply relative z-[1] flex flex-col gap-4;
+  }
+
+  .testimonial-body p {
+    @apply m-0 text-base leading-6 text-[#1d1d1d];
+  }
+
+  .testimonial-body span {
+    @apply text-base font-semibold leading-6 text-[#111528];
+  }
+
   .hero-nav-shell {
     @apply fixed inset-x-0 z-40 mx-auto max-w-7xl px-6 pointer-events-none;
     top: 24px;
@@ -825,6 +847,20 @@ select {
 .hero-button-row {
   display: flex;
   gap: 8px;
+}
+
+.cta-logo-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  gap: 32px;
+  white-space: nowrap;
+  animation: hero-logo-marquee 24s linear infinite;
+  animation-play-state: paused;
+}
+
+.cta-logo-track.is-motion-active {
+  animation-play-state: running;
 }
 
 .ui-button {
@@ -2270,7 +2306,7 @@ select {
 }
 
 .faq-cta-trust {
-  width: min(100%, 720px);
+  width: min(100%, 520px);
 }
 
 .faq-cta-links {
@@ -2294,6 +2330,7 @@ select {
   padding: 128px 0;
   background: var(--surface-light);
   color: #010104;
+  overflow: hidden;
 }
 
 .testimonials-section .section-title,
@@ -2304,85 +2341,16 @@ select {
 .testimonials-marquee {
   position: relative;
   margin-top: 72px;
-  overflow: hidden;
-}
-
-.testimonials-marquee::before,
-.testimonials-marquee::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: clamp(24px, 6vw, 88px);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.testimonials-marquee::before {
-  left: 0;
-  background: linear-gradient(90deg, var(--surface-light) 0%, rgba(249, 250, 252, 0) 100%);
-}
-
-.testimonials-marquee::after {
-  right: 0;
-  background: linear-gradient(270deg, var(--surface-light) 0%, rgba(249, 250, 252, 0) 100%);
+  overflow: visible;
 }
 
 .testimonials-track {
   display: flex;
+  align-items: flex-start;
   gap: 16px;
   width: max-content;
   animation: testimonials-marquee 42s linear infinite;
   will-change: transform;
-}
-
-.testimonial-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 196px;
-  flex: 0 0 min(420px, calc(100vw - 64px));
-  min-width: min(420px, calc(100vw - 64px));
-  min-height: 100%;
-  padding: 40px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-radius: 40px;
-  background: #ffffff url('/assets/card-bg/testimonial.svg') center / cover no-repeat;
-  overflow: hidden;
-}
-
-.testimonial-card::after {
-  content: '';
-  position: absolute;
-  inset: -25% -10% auto;
-  height: 180px;
-  pointer-events: none;
-}
-
-.testimonial-quote {
-  width: 64px;
-}
-
-.testimonial-body {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.testimonial-body p {
-  margin: 0;
-  color: #1d1d1d;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.testimonial-body span {
-  color: #111528;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.5;
 }
 
 @keyframes ticker {
@@ -2501,8 +2469,8 @@ select {
   }
 
   .testimonial-card {
-    flex-basis: min(360px, calc(100vw - 64px));
-    min-width: min(360px, calc(100vw - 64px));
+    flex-basis: min(80rem, calc(100vw - 48px));
+    min-width: min(80rem, calc(100vw - 48px));
   }
 
   .faq-shell {

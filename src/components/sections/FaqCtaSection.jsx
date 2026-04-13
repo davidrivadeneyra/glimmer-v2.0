@@ -7,16 +7,10 @@ import { useRef } from 'react'
 import useViewportVideo from '../../hooks/useViewportVideo'
 
 const clientLogos = [
-  { name: '3IPunt', src: '/assets/logos-clientes/3IPunt.png' },
-  { name: 'ARQ', src: '/assets/logos-clientes/ARQ.png' },
-  { name: 'Delvy', src: '/assets/logos-clientes/Delvy.png' },
-  { name: 'Grupo Lamadrid', src: '/assets/logos-clientes/Grupo%20Lamadrid.png' },
-  { name: 'HOk Capital', src: '/assets/logos-clientes/HOk%20Capital.png' },
-  { name: 'NexusClips', src: '/assets/logos-clientes/NexusClips.png' },
-  { name: 'RSM', src: '/assets/logos-clientes/RSM.png' },
-  { name: 'S4Gaming', src: '/assets/logos-clientes/S4-gaming.png' },
-  { name: 'Top Cable', src: '/assets/logos-clientes/top%20cable.png' },
-  { name: 'dilobonito', src: '/assets/logos-clientes/dilobonito.png' },
+  { name: 'avanade', src: '/assets/logos-partners/avanade.png' },
+  { name: 'enisa', src: '/assets/logos-partners/enisa.png' },
+  { name: 'LSTECHNOVA', src: '/assets/logos-partners/LSTECHNOVA.jpg' },
+  { name: 'Grupo wayra_logo', src: '/assets/logos-partners/wayra_logo.jpeg' },
 ]
 
 const footerLinks = [
@@ -60,9 +54,9 @@ function FaqCtaSection() {
             <Button href="mailto:hola@glimmer.ai" radius="full" background="white">
               {t('nav.cta')}
             </Button>
-            <div className="hero-trust faq-cta-trust mt-8" aria-label="Clientes">
+            <div className="hero-trust  faq-cta-trust mt-8" aria-label="Clientes">
               <div className="faq-cta-logo-row">
-                <div className={`hero-logo-track ${isSectionInViewport ? 'is-motion-active' : ''}`}>
+                <div className={`cta-logo-track  ${isSectionInViewport ? 'is-motion-active' : ''}`}>
                   {[...clientLogos, ...clientLogos].map((logo, index) => (
                     <span
                       key={`${logo.name}-${index}`}
