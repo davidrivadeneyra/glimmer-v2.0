@@ -4,7 +4,6 @@ import Button from '../Button'
 import useInViewport from '../../hooks/useInViewport'
 import useSectionReveal from '../../hooks/useSectionReveal'
 import useViewportVideo from '../../hooks/useViewportVideo'
-import { HERO_FRAME_COUNT, getHeroFrameSrc } from '../../lib/heroFrames'
 
 const clientLogos = [
   { name: '3IPunt', src: '/assets/logos-clientes/3IPunt.png' },
@@ -43,8 +42,7 @@ const getHeroTitleIndex = (frameIndex, titleCount) => {
 
 const HERO_TICKER_START_FRAME = 340
 const HERO_TICKER_FRAME_STEP = 66
-const HERO_FRAME_PRELOAD_RADIUS = 10
-const HERO_FRAME_CACHE_RADIUS = 18
+const HERO_TIMELINE_FRAME_COUNT = 626
 
 const getHeroTickerIndex = (frameIndex, tickerCount) => {
   if (tickerCount <= 1 || frameIndex < HERO_TICKER_START_FRAME) {
@@ -55,24 +53,6 @@ const getHeroTickerIndex = (frameIndex, tickerCount) => {
     Math.floor((frameIndex - HERO_TICKER_START_FRAME) / HERO_TICKER_FRAME_STEP),
     tickerCount - 1,
   )
-}
-
-const getHeroLogoScale = (frameIndex) => {
-  const introEndFrame = 279
-  const outroStartFrame = 280
-  const outroEndFrame = 294
-  const introScale = 1.08
-
-  if (frameIndex <= introEndFrame) {
-    return 1 + (introScale - 1) * (frameIndex / introEndFrame)
-  }
-
-  if (frameIndex <= outroEndFrame) {
-    const outroProgress = (frameIndex - outroStartFrame) / (outroEndFrame - outroStartFrame)
-    return Math.max(introScale * (1 - outroProgress), 0)
-  }
-
-  return 0
 }
 
 const getHeroContentStyle = (frameIndex) => {
@@ -123,15 +103,10 @@ const getHeroTickerStyle = (frameIndex) => {
 function HeroSection() {
   const { t } = useTranslation()
   const heroRef = useRef(null)
-  const heroCanvasRef = useRef(null)
   const heroVideoRef = useRef(null)
-  const heroFrameImagesRef = useRef(new Map())
-  const heroPendingFramesRef = useRef(new Set())
   const heroFrameIndexRef = useRef(0)
   const heroTitleIndexRef = useRef(0)
   const heroTickerIndexRef = useRef(0)
-  const isMobileRef = useRef(false)
-  const [heroLogoScale, setHeroLogoScale] = useState(1)
   const [heroTitleIndex, setHeroTitleIndex] = useState(0)
   const [heroContentStyle, setHeroContentStyle] = useState(() => getHeroContentStyle(0))
   const [heroTickerStyle, setHeroTickerStyle] = useState(() => getHeroTickerStyle(0))
@@ -146,135 +121,6 @@ function HeroSection() {
 
   useEffect(() => {
     let frameId = 0
-    let isDisposed = false
-    const canvasContextRef = { current: null }
-    const loadedFrames = heroFrameImagesRef.current
-    const pendingFrames = heroPendingFramesRef.current
-
-    const drawFrame = (frameIndex) => {
-      if (isMobileRef.current) {
-        return
-      }
-
-      const canvas = heroCanvasRef.current
-      const image = loadedFrames.get(frameIndex)
-      if (!canvas || !image || !image.complete) {
-        return
-      }
-
-      const context = canvasContextRef.current ?? canvas.getContext('2d')
-      if (!context) {
-        return
-      }
-
-      canvasContextRef.current = context
-
-      const canvasWidth = canvas.width
-      const canvasHeight = canvas.height
-      if (!canvasWidth || !canvasHeight) {
-        return
-      }
-
-      const imageWidth = image.naturalWidth || image.width
-      const imageHeight = image.naturalHeight || image.height
-      if (!imageWidth || !imageHeight) {
-        return
-      }
-
-      const scale = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight)
-      const drawWidth = imageWidth * scale
-      const drawHeight = imageHeight * scale
-      const offsetX = (canvasWidth - drawWidth) * 0.5
-      const offsetY = (canvasHeight - drawHeight) * 0.5
-
-      context.clearRect(0, 0, canvasWidth, canvasHeight)
-      context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight)
-    }
-
-    const unloadFrame = (frameIndex) => {
-      const image = loadedFrames.get(frameIndex)
-      if (!image) {
-        return
-      }
-
-      image.onload = null
-      image.src = ''
-      loadedFrames.delete(frameIndex)
-      pendingFrames.delete(frameIndex)
-    }
-
-    const ensureFrameLoaded = (frameIndex) => {
-      if (frameIndex < 0 || frameIndex >= HERO_FRAME_COUNT) {
-        return
-      }
-
-      if (
-        loadedFrames.has(frameIndex) ||
-        pendingFrames.has(frameIndex)
-      ) {
-        return
-      }
-
-      const image = new Image()
-      pendingFrames.add(frameIndex)
-      image.decoding = 'async'
-      image.src = getHeroFrameSrc(frameIndex)
-      image.onload = () => {
-        pendingFrames.delete(frameIndex)
-
-        if (isDisposed) {
-          return
-        }
-
-        loadedFrames.set(frameIndex, image)
-
-        if (frameIndex === heroFrameIndexRef.current || frameIndex === 0) {
-          drawFrame(heroFrameIndexRef.current)
-        }
-      }
-    }
-
-    const syncFrameWindow = (frameIndex) => {
-      for (
-        let preloadIndex = frameIndex - HERO_FRAME_PRELOAD_RADIUS;
-        preloadIndex <= frameIndex + HERO_FRAME_PRELOAD_RADIUS;
-        preloadIndex += 1
-      ) {
-        ensureFrameLoaded(preloadIndex)
-      }
-
-      loadedFrames.forEach((_, loadedFrameIndex) => {
-        if (Math.abs(loadedFrameIndex - frameIndex) > HERO_FRAME_CACHE_RADIUS) {
-          unloadFrame(loadedFrameIndex)
-        }
-      })
-    }
-
-    const syncCanvasSize = () => {
-      const canvas = heroCanvasRef.current
-      isMobileRef.current = window.matchMedia('(max-width: 767px)').matches
-
-      if (!canvas) {
-        return
-      }
-
-      if (isMobileRef.current) {
-        return
-      }
-
-      const viewportWidth = window.innerWidth || 1
-      const viewportHeight = window.innerHeight || 1
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 2)
-
-      canvas.width = Math.round(viewportWidth * pixelRatio)
-      canvas.height = Math.round(viewportHeight * pixelRatio)
-      canvas.style.width = `${viewportWidth}px`
-      canvas.style.height = `${viewportHeight}px`
-
-      ensureFrameLoaded(heroFrameIndexRef.current)
-      syncFrameWindow(heroFrameIndexRef.current)
-      drawFrame(heroFrameIndexRef.current)
-    }
 
     const updateHeroProgress = () => {
       const hero = heroRef.current
@@ -288,18 +134,15 @@ function HeroSection() {
       const progress = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1)
 
       const frameIndex = Math.min(
-        HERO_FRAME_COUNT - 1,
-        Math.round(progress * (HERO_FRAME_COUNT - 1)),
+        HERO_TIMELINE_FRAME_COUNT - 1,
+        Math.round(progress * (HERO_TIMELINE_FRAME_COUNT - 1)),
       )
 
-      setHeroLogoScale(getHeroLogoScale(frameIndex))
       setHeroContentStyle(getHeroContentStyle(frameIndex))
       setHeroTickerStyle(getHeroTickerStyle(frameIndex))
 
       if (heroFrameIndexRef.current !== frameIndex) {
         heroFrameIndexRef.current = frameIndex
-        syncFrameWindow(frameIndex)
-        drawFrame(frameIndex)
       }
 
       const nextTitleIndex = getHeroTitleIndex(frameIndex, heroTitles.length)
@@ -320,23 +163,13 @@ function HeroSection() {
       frameId = window.requestAnimationFrame(updateHeroProgress)
     }
 
-    syncCanvasSize()
     requestUpdate()
     window.addEventListener('scroll', requestUpdate, { passive: true })
-    window.addEventListener('resize', syncCanvasSize)
     window.addEventListener('resize', requestUpdate)
 
     return () => {
-      isDisposed = true
       cancelAnimationFrame(frameId)
-      loadedFrames.forEach((image) => {
-        image.onload = null
-        image.src = ''
-      })
-      loadedFrames.clear()
-      pendingFrames.clear()
       window.removeEventListener('scroll', requestUpdate)
-      window.removeEventListener('resize', syncCanvasSize)
       window.removeEventListener('resize', requestUpdate)
     }
   }, [heroTitles, tickerWords.length])
@@ -345,30 +178,18 @@ function HeroSection() {
     <section className="hero-section" ref={heroRef}>
       <div className="hero-sticky">
         <div className="hero-media" aria-hidden="true">
-          <canvas ref={heroCanvasRef} className="hero-canvas" />
           <video
             ref={heroVideoRef}
             className="hero-video"
             loop
             muted
             playsInline
-            preload="metadata"
+            autoPlay
+            preload="none"
+            poster="/assets/video/Final Video Hero Glimmer.png"
           >
-            <source src="/assets/video/video-glimmer-extended.webm" type="video/webm" />
+            <source src="/assets/video/Final Video Hero Glimmer.mp4" type="video/mp4" />
           </video>
-        </div>
-        <div className="hero-isotipo" aria-hidden="true">
-          <img
-            className={`hero-isotipo__image ${isHeroInViewport ? 'spin-loop is-motion-active' : 'spin-loop'}`}
-            src="/assets/isotipo-blur.svg"
-            alt=""
-            width="88"
-            height="88"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            style={{ '--spin-scale': heroLogoScale }}
-          />
         </div>
         <div
           className="hero-ticker-stage"
