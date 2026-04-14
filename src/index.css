@@ -238,7 +238,7 @@ select {
   }
 
   .hero-grid {
-    @apply relative z-[6] flex flex-col justify-between md:grid md:grid-cols-2 items-end gap-11 min-h-[calc(100vh-120px)] pb-8 md:pb-36;
+    @apply relative z-[6] flex flex-col justify-end md:grid md:grid-cols-2 items-end gap-11 min-h-[calc(100vh-120px)] pb-8 md:pb-36;
   }
 
   .type-title {
@@ -2518,6 +2518,10 @@ select {
 
   .hero-video {
     display: block;
+  }
+
+  .hero-isotipo {
+    display: none;
   }
 }
 

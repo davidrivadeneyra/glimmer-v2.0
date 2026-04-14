@@ -354,7 +354,7 @@ function HeroSection() {
             playsInline
             preload="metadata"
           >
-            <source src="/assets/video/video-glimmer-extended.webm" type="video/webm" />
+            <source src="/assets/video/final-video-hero-limmer.mp4" type="video/mp4" />
           </video>
         </div>
         <div className="hero-isotipo" aria-hidden="true">
