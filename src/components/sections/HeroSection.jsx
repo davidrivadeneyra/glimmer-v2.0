@@ -43,10 +43,8 @@ const getHeroTitleIndex = (frameIndex, titleCount) => {
 
 const HERO_TICKER_START_FRAME = 340
 const HERO_TICKER_FRAME_STEP = 66
-// const HERO_FRAME_PRELOAD_RADIUS = 10
-const HERO_FRAME_PRELOAD_RADIUS = 626
-// const HERO_FRAME_CACHE_RADIUS = 18
-const HERO_FRAME_CACHE_RADIUS = 626
+const HERO_FRAME_PRELOAD_RADIUS = 14
+const HERO_FRAME_CACHE_RADIUS = 72
 
 const getHeroTickerIndex = (frameIndex, tickerCount) => {
   if (tickerCount <= 1 || frameIndex < HERO_TICKER_START_FRAME) {
@@ -130,6 +128,8 @@ function HeroSection() {
   const heroFrameImagesRef = useRef(new Map())
   const heroPendingFramesRef = useRef(new Set())
   const heroFrameIndexRef = useRef(0)
+  const heroLastDrawnFrameRef = useRef(-1)
+  const heroFirstFramePaintedRef = useRef(false)
   const heroTitleIndexRef = useRef(0)
   const heroTickerIndexRef = useRef(0)
   const isMobileRef = useRef(false)
@@ -138,6 +138,7 @@ function HeroSection() {
   const [heroContentStyle, setHeroContentStyle] = useState(() => getHeroContentStyle(0))
   const [heroTickerStyle, setHeroTickerStyle] = useState(() => getHeroTickerStyle(0))
   const [heroTickerIndex, setHeroTickerIndex] = useState(0)
+  const [hasHeroFirstFrame, setHasHeroFirstFrame] = useState(false)
 
   const heroTitles = t('hero.titles', { returnObjects: true })
   const tickerWords = t('ticker.words', { returnObjects: true })
@@ -155,18 +156,18 @@ function HeroSection() {
 
     const drawFrame = (frameIndex) => {
       if (isMobileRef.current) {
-        return
+        return false
       }
 
       const canvas = heroCanvasRef.current
       const image = loadedFrames.get(frameIndex)
       if (!canvas || !image || !image.complete) {
-        return
+        return false
       }
 
       const context = canvasContextRef.current ?? canvas.getContext('2d')
       if (!context) {
-        return
+        return false
       }
 
       canvasContextRef.current = context
@@ -174,13 +175,13 @@ function HeroSection() {
       const canvasWidth = canvas.width
       const canvasHeight = canvas.height
       if (!canvasWidth || !canvasHeight) {
-        return
+        return false
       }
 
       const imageWidth = image.naturalWidth || image.width
       const imageHeight = image.naturalHeight || image.height
       if (!imageWidth || !imageHeight) {
-        return
+        return false
       }
 
       const scale = Math.max(canvasWidth / imageWidth, canvasHeight / imageHeight)
@@ -191,6 +192,25 @@ function HeroSection() {
 
       context.clearRect(0, 0, canvasWidth, canvasHeight)
       context.drawImage(image, offsetX, offsetY, drawWidth, drawHeight)
+
+      heroLastDrawnFrameRef.current = frameIndex
+
+      if (!heroFirstFramePaintedRef.current) {
+        heroFirstFramePaintedRef.current = true
+        setHasHeroFirstFrame(true)
+      }
+
+      return true
+    }
+
+    const drawBestAvailableFrame = (frameIndex) => {
+      if (drawFrame(frameIndex)) {
+        return
+      }
+
+      if (heroLastDrawnFrameRef.current >= 0) {
+        drawFrame(heroLastDrawnFrameRef.current)
+      }
     }
 
     const unloadFrame = (frameIndex) => {
@@ -275,7 +295,7 @@ function HeroSection() {
 
       ensureFrameLoaded(heroFrameIndexRef.current)
       syncFrameWindow(heroFrameIndexRef.current)
-      drawFrame(heroFrameIndexRef.current)
+      drawBestAvailableFrame(heroFrameIndexRef.current)
     }
 
     const updateHeroProgress = () => {
@@ -301,7 +321,7 @@ function HeroSection() {
       if (heroFrameIndexRef.current !== frameIndex) {
         heroFrameIndexRef.current = frameIndex
         syncFrameWindow(frameIndex)
-        drawFrame(frameIndex)
+        drawBestAvailableFrame(frameIndex)
       }
 
       const nextTitleIndex = getHeroTitleIndex(frameIndex, heroTitles.length)
@@ -347,6 +367,14 @@ function HeroSection() {
     <section className="hero-section" ref={heroRef}>
       <div className="hero-sticky">
         <div className="hero-media" aria-hidden="true">
+          <img
+            className={`hero-frame-fallback ${hasHeroFirstFrame ? 'is-hidden' : ''}`}
+            src="/assets/video-frames/hero-sequence/frame-0001.webp"
+            alt=""
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+          />
           <canvas ref={heroCanvasRef} className="hero-canvas" />
           <video
             ref={heroVideoRef}
