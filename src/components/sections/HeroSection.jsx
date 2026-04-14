@@ -43,8 +43,10 @@ const getHeroTitleIndex = (frameIndex, titleCount) => {
 
 const HERO_TICKER_START_FRAME = 340
 const HERO_TICKER_FRAME_STEP = 66
-const HERO_FRAME_PRELOAD_RADIUS = 14
-const HERO_FRAME_CACHE_RADIUS = 72
+const HERO_FRAME_PRIORITY_RADIUS = 24
+const HERO_FRAME_DIRECTIONAL_FORWARD = 48
+const HERO_FRAME_DIRECTIONAL_BACKWARD = 16
+const HERO_FRAME_CACHE_RADIUS = 180
 
 const getHeroTickerIndex = (frameIndex, tickerCount) => {
   if (tickerCount <= 1 || frameIndex < HERO_TICKER_START_FRAME) {
@@ -128,6 +130,7 @@ function HeroSection() {
   const heroFrameImagesRef = useRef(new Map())
   const heroPendingFramesRef = useRef(new Set())
   const heroFrameIndexRef = useRef(0)
+  const heroLastRequestedFrameRef = useRef(0)
   const heroLastDrawnFrameRef = useRef(-1)
   const heroFirstFramePaintedRef = useRef(false)
   const heroTitleIndexRef = useRef(0)
@@ -257,9 +260,22 @@ function HeroSection() {
     }
 
     const syncFrameWindow = (frameIndex) => {
+      const previousFrameIndex = heroLastRequestedFrameRef.current
+      const scrollDirection = frameIndex >= previousFrameIndex ? 1 : -1
+      const backwardRadius =
+        scrollDirection >= 0
+          ? HERO_FRAME_PRIORITY_RADIUS + HERO_FRAME_DIRECTIONAL_BACKWARD
+          : HERO_FRAME_PRIORITY_RADIUS + HERO_FRAME_DIRECTIONAL_FORWARD
+      const forwardRadius =
+        scrollDirection >= 0
+          ? HERO_FRAME_PRIORITY_RADIUS + HERO_FRAME_DIRECTIONAL_FORWARD
+          : HERO_FRAME_PRIORITY_RADIUS + HERO_FRAME_DIRECTIONAL_BACKWARD
+
+      heroLastRequestedFrameRef.current = frameIndex
+
       for (
-        let preloadIndex = frameIndex - HERO_FRAME_PRELOAD_RADIUS;
-        preloadIndex <= frameIndex + HERO_FRAME_PRELOAD_RADIUS;
+        let preloadIndex = frameIndex - backwardRadius;
+        preloadIndex <= frameIndex + forwardRadius;
         preloadIndex += 1
       ) {
         ensureFrameLoaded(preloadIndex)
