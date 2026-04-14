@@ -43,8 +43,8 @@ const getHeroTitleIndex = (frameIndex, titleCount) => {
 
 const HERO_TICKER_START_FRAME = 340
 const HERO_TICKER_FRAME_STEP = 66
-const HERO_FRAME_PRELOAD_RADIUS = 10
-const HERO_FRAME_CACHE_RADIUS = 18
+const HERO_FRAME_PRELOAD_RADIUS = 300
+const HERO_FRAME_CACHE_RADIUS = 300
 
 const getHeroTickerIndex = (frameIndex, tickerCount) => {
   if (tickerCount <= 1 || frameIndex < HERO_TICKER_START_FRAME) {
