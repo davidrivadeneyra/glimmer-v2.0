@@ -154,6 +154,17 @@ function HeroSection() {
   const isHeroInViewport = useInViewport(heroRef, { threshold: 0.15 })
 
   useEffect(() => {
+    const hero = heroRef.current
+    if (!hero) {
+      return
+    }
+
+    hero.querySelectorAll('[data-reveal]').forEach((node) => {
+      node.classList.add('is-visible')
+    })
+  }, [heroTitles])
+
+  useEffect(() => {
     let frameId = 0
     let isDisposed = false
     let preloadTimeout = 0
