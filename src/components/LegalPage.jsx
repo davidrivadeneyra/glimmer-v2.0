@@ -43,10 +43,17 @@ function LegalSection({ section }) {
 }
 
 function LegalPage({ document }) {
+  const isEnglishDocument = document.slug.startsWith('/en/')
+  const backHref = isEnglishDocument ? '/en' : '/'
+  const backLabel = isEnglishDocument ? 'Back' : 'Volver'
+
   return (
     <main className="legal-page">
       <section className="legal-hero">
         <div className="legal-shell">
+          <a className="legal-back-link" href={backHref}>
+            {backLabel}
+          </a>
           <span className="legal-eyebrow">Itsglimmer S.L.</span>
           <h1 className="legal-title">{document.title}</h1>
           <p className="legal-summary">{document.summary}</p>

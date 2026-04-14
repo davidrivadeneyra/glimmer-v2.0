@@ -48,6 +48,7 @@ function FaqCtaSection() {
               {t('nav.cta')}
             </Button>
             <div className="hero-trust  faq-cta-trust mt-8" aria-label="Clientes">
+              <p className="type-subheadline-size text-center">{t('faqCta.partnersLabel')}</p>
               <div className="faq-cta-logo-row">
                 <div className={`cta-logo-track  ${isSectionInViewport ? 'is-motion-active' : ''}`}>
                   {[...clientLogos, ...clientLogos].map((logo, index) => (

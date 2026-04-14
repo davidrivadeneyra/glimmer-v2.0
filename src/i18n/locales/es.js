@@ -237,6 +237,7 @@ const es = {
   faqCta: {
     title: 'Donde las señales del mercado se convierten en acción',
     description: '',
+    partnersLabel: 'Nuestros partners',
     links: [
       { href: 'https://www.linkedin.com', label: 'LinkedIn' },
       { href: '/aviso-legal', label: 'Aviso legal' },

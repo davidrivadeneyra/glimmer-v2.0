@@ -124,6 +124,32 @@ img {
   padding: 120px 0 36px;
 }
 
+.legal-back-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  border: 1px solid rgba(37, 74, 246, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--title-darker);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.legal-back-link:hover {
+  background: rgba(255, 255, 255, 0.96);
+  border-color: rgba(37, 74, 246, 0.24);
+  transform: translateY(-1px);
+}
+
 .legal-eyebrow {
   display: inline-flex;
   margin-bottom: 18px;
@@ -238,7 +264,7 @@ select {
   }
 
   .hero-grid {
-    @apply relative z-[6] flex flex-col justify-end md:grid md:grid-cols-2 items-end gap-11 min-h-[calc(100vh-220px)] pb-8 md:pb-36;
+    @apply relative z-[6] flex flex-col justify-end md:grid md:grid-cols-2 items-end gap-11 min-h-[calc(100vh-220px)] pb-8 md:pb-8;
   }
 
   .type-title {
@@ -299,9 +325,28 @@ select {
   }
 
   .testimonial-card {
-    @apply relative flex h-fit self-start flex-col gap-[96px] w-[356px] overflow-hidden rounded-[40px] border border-black/10 p-10;
+    --testimonial-card-width-mobile: min(20rem, calc(100vw - 48px));
+    --testimonial-card-width-desktop: 356px;
+    --testimonial-card-height-mobile: 450px;
+    --testimonial-card-height-desktop: 420px;
+    @apply relative flex self-start flex-col gap-[96px] overflow-hidden rounded-[40px] border border-black/10 p-10;
+    width: var(--testimonial-card-width-mobile);
+    flex-basis: var(--testimonial-card-width-mobile);
+    min-width: var(--testimonial-card-width-mobile);
+    height: var(--testimonial-card-height-mobile);
+    min-height: var(--testimonial-card-height-mobile);
     background: #ffffff url('/assets/card-bg/testimonial.svg') center / cover no-repeat;
     border-color: rgba(0, 0, 0, 0.08);
+  }
+
+  @media (min-width: 768px) {
+    .testimonial-card {
+      width: var(--testimonial-card-width-desktop);
+      flex-basis: var(--testimonial-card-width-desktop);
+      min-width: var(--testimonial-card-width-desktop);
+      height: var(--testimonial-card-height-desktop);
+      min-height: var(--testimonial-card-height-desktop);
+    }
   }
 
   .testimonial-quote {
@@ -608,6 +653,14 @@ select {
   width: 112px;
 }
 
+.hero-nav-frame {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
 .hero-nav-menu {
   display: flex;
   align-items: center;
@@ -624,38 +677,72 @@ select {
   font-size: 14px;
 }
 
-.hero-language-links {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex: 0 0 auto;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: 14px;
-}
-
-.hero-language-links .ui-nav-link.is-active-language {
-  color: rgba(255, 255, 255, 0.92);
-}
-
-.hero-nav--light-section .hero-links,
-.hero-nav--light-section .hero-language-links {
+.hero-nav--light-section .hero-links {
   color: rgba(1, 1, 4, 0.62);
 }
 
 .hero-nav--light-section .ui-nav-link:hover,
 .hero-nav--light-section .ui-nav-link:focus-visible,
-.hero-nav--light-section .hero-language-links .ui-nav-link.is-active-language {
+.hero-nav--light-section .hero-language-switch__option.is-active-language {
   color: rgba(1, 1, 4, 0.92);
 }
 
-.hero-language-divider {
-  color: rgba(255, 255, 255, 0.28);
-  line-height: 1;
-  user-select: none;
+.hero-language-switch {
+  --hero-language-text: rgba(255, 255, 255, 0.64);
+  --hero-language-active: rgba(255, 255, 255, 0.94);
+  --hero-language-border: rgba(255, 255, 255, 0.16);
+  --hero-language-bg: rgba(8, 8, 10, 0.24);
+  --hero-language-active-bg: rgba(255, 255, 255, 0.16);
+  position: relative;
+  display: inline-grid;
+  grid-template-columns: repeat(2, 40px);
+  align-items: center;
+  justify-items: center;
+  width: fit-content;
+  padding: 4px;
+  border: 1px solid var(--hero-language-border);
+  border-radius: 999px;
+  background: var(--hero-language-bg);
+  backdrop-filter: blur(12px);
+  pointer-events: auto;
+  z-index: 2;
 }
 
-.hero-nav--light-section .hero-language-divider {
-  color: rgba(1, 1, 4, 0.2);
+.hero-language-switch--light-section {
+  --hero-language-text: rgba(1, 1, 4, 0.62);
+  --hero-language-active: rgba(1, 1, 4, 0.92);
+  --hero-language-border: rgba(1, 1, 4, 0.08);
+  --hero-language-bg: rgba(234, 238, 246, 0.82);
+  --hero-language-active-bg: rgba(255, 255, 255, 0.92);
+}
+
+.hero-language-switch__option {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--hero-language-text);
+  font-size: 14px;
+  border-radius: 50%;
+}
+
+.hero-language-switch__option.is-active-language {
+  background: var(--hero-language-active-bg);
+  color: var(--hero-language-active);
+}
+
+.hero-language-switch--desktop {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.hero-language-switch--mobile {
+  display: none;
 }
 
 .hero-nav-toggle {
@@ -2491,11 +2578,6 @@ select {
     width: min(100%, calc(520px * var(--delivery-orbit-scale)));
   }
 
-  .testimonial-card {
-    flex-basis: min(80rem, calc(100vw - 48px));
-    min-width: min(80rem, calc(100vw - 48px));
-  }
-
   .faq-shell {
     grid-template-columns: 1fr;
     gap: 56px;
@@ -2638,6 +2720,7 @@ select {
   .testimonial-card {
     padding: 28px;
   }
+
 
   .pain-card {
     min-height: 320px;
@@ -2866,9 +2949,8 @@ select {
   }
 
   .testimonials-marquee {
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 8px;
+    /* overflow: hidden; */
+    padding-bottom: 0;
   }
 
   .testimonials-track {
@@ -2927,31 +3009,29 @@ select {
     text-align: center;
   }
 
-  .hero-language-links {
-    justify-content: center;
-    width: 100%;
-    order: initial;
-  }
-
   .hero-links .ui-nav-link {
     color: var(--bg-lighter);
     font-size: 16px;
   }
 
   .hero-nav-menu--light-section .hero-links .ui-nav-link,
-  .hero-nav-menu--light-section .hero-language-links .ui-nav-link,
-  .hero-nav-menu--light-section .hero-language-divider {
+  .hero-nav-menu--light-section .hero-language-switch__option {
     color: var(--title-darker);
   }
 
-  .hero-language-links .ui-nav-link,
-  .hero-language-divider {
-    color: var(--bg-lighter);
-    font-size: 16px;
+  .hero-language-switch--desktop {
+    display: none;
   }
 
-  .hero-language-links .ui-nav-link.is-active-language {
-    color: rgba(255, 255, 255, 0.92);
+  .hero-language-switch--mobile {
+    display: inline-grid;
+    width: 100%;
+    max-width: 90px;
+    order: initial;
+  }
+
+  .hero-language-switch__option {
+    font-size: 16px;
   }
 
   .hero-nav-menu .hero-nav-cta {

@@ -6,6 +6,30 @@ import HeroNavLink from './HeroNavLink'
 
 const LIGHT_SECTION_SELECTORS = ['#impacto', '#casos-de-uso', '#testimonios']
 
+function LanguageSwitch({ isEnglishActive, englishHref, spanishHref, isOnLightSection, onSelect, className = '' }) {
+  return (
+    <nav
+      className={`hero-language-switch ${isOnLightSection ? 'hero-language-switch--light-section' : ''} ${className}`.trim()}
+      aria-label="Language selector"
+    >
+      <HeroNavLink
+        href={englishHref}
+        className={`hero-language-switch__option ${isEnglishActive ? 'is-active-language' : ''}`}
+        onClick={onSelect}
+      >
+        EN
+      </HeroNavLink>
+      <HeroNavLink
+        href={spanishHref}
+        className={`hero-language-switch__option ${!isEnglishActive ? 'is-active-language' : ''}`}
+        onClick={onSelect}
+      >
+        ES
+      </HeroNavLink>
+    </nav>
+  )
+}
+
 function HeroNav() {
   const { t } = useTranslation()
   const currentPath = window.location.pathname
@@ -44,66 +68,64 @@ function HeroNav() {
 
   return (
     <header className="hero-nav-shell">
-      <div className={`hero-nav ${isOnLightSection ? 'hero-nav--light-section' : ''}`}>
-        <a className="hero-brand" href="#top" aria-label="Glimmer">
-          <img
-            src={isOnLightSection ? '/assets/isologotipo-dark.svg' : '/assets/isologotipo.svg'}
-            alt="Glimmer"
-          />
-        </a>
-        <button
-          className="hero-nav-toggle"
-          type="button"
-          aria-expanded={isMobileMenuOpen}
-          aria-controls="hero-nav-menu"
-          aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
-          onClick={() => setIsMobileMenuOpen((current) => !current)}
-        >
-          <Menu size={20} strokeWidth={2.25} aria-hidden="true" />
-        </button>
-        <div
-          className={`hero-nav-menu ${isMobileMenuOpen ? 'is-open' : ''} ${isOnLightSection ? 'hero-nav-menu--light-section' : ''}`}
-          id="hero-nav-menu"
-        >
-          <nav className="hero-links">
-            <HeroNavLink href="#producto" onClick={() => setIsMobileMenuOpen(false)}>
-              {t('nav.solution')}
-            </HeroNavLink>
-            <HeroNavLink href="#casos-de-uso" onClick={() => setIsMobileMenuOpen(false)}>
-              {t('nav.casos')}
-            </HeroNavLink>
-            <HeroNavLink href="#faq" onClick={() => setIsMobileMenuOpen(false)}>
-              {t('nav.faq')}
-            </HeroNavLink>
-          </nav>
-          <nav className="hero-language-links" aria-label="Language selector">
-            <HeroNavLink
-              href={englishHref}
-              className={isEnglishActive ? 'is-active-language' : ''}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              EN
-            </HeroNavLink>
-            <span className="hero-language-divider" aria-hidden="true">
-              •
-            </span>
-            <HeroNavLink
-              href={spanishHref}
-              className={!isEnglishActive ? 'is-active-language' : ''}
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              ES
-            </HeroNavLink>
-          </nav>
-          <Button
-            href="mailto:hola@glimmer.ai"
-            className="hero-nav-cta"
-            radius="full"
-            background="transparentBlack"
-            onClick={() => setIsMobileMenuOpen(false)}
+      <div className="hero-nav-frame">
+        <LanguageSwitch
+          isEnglishActive={isEnglishActive}
+          englishHref={englishHref}
+          spanishHref={spanishHref}
+          isOnLightSection={isOnLightSection}
+          className="hero-language-switch--desktop"
+        />
+        <div className={`hero-nav ${isOnLightSection ? 'hero-nav--light-section' : ''}`}>
+          <a className="hero-brand" href="#top" aria-label="Glimmer">
+            <img
+              src={isOnLightSection ? '/assets/isologotipo-dark.svg' : '/assets/isologotipo.svg'}
+              alt="Glimmer"
+            />
+          </a>
+          <button
+            className="hero-nav-toggle"
+            type="button"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="hero-nav-menu"
+            aria-label={isMobileMenuOpen ? 'Cerrar menu' : 'Abrir menu'}
+            onClick={() => setIsMobileMenuOpen((current) => !current)}
           >
-            {t('nav.cta')}
-          </Button>
+            <Menu size={20} strokeWidth={2.25} aria-hidden="true" />
+          </button>
+          <div
+            className={`hero-nav-menu ${isMobileMenuOpen ? 'is-open' : ''} ${isOnLightSection ? 'hero-nav-menu--light-section' : ''}`}
+            id="hero-nav-menu"
+          >
+            <nav className="hero-links">
+              <HeroNavLink href="#producto" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.solution')}
+              </HeroNavLink>
+              <HeroNavLink href="#casos-de-uso" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.casos')}
+              </HeroNavLink>
+              <HeroNavLink href="#faq" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.faq')}
+              </HeroNavLink>
+            </nav>
+            <LanguageSwitch
+              isEnglishActive={isEnglishActive}
+              englishHref={englishHref}
+              spanishHref={spanishHref}
+              isOnLightSection={isOnLightSection}
+              className="hero-language-switch--mobile"
+              onSelect={() => setIsMobileMenuOpen(false)}
+            />
+            <Button
+              href="mailto:hola@glimmer.ai"
+              className="hero-nav-cta"
+              radius="full"
+              background="transparentBlack"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {t('nav.cta')}
+            </Button>
+          </div>
         </div>
       </div>
     </header>

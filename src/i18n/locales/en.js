@@ -232,6 +232,7 @@ const en = {
   faqCta: {
     title: 'Where market signals become action',
     description: '',
+    partnersLabel: 'Our partners',
     links: [
       { href: 'https://www.linkedin.com', label: 'LinkedIn' },
       { href: '/en/legal-notice', label: 'Legal Notice' },
