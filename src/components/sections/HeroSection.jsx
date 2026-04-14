@@ -43,10 +43,12 @@ const getHeroTitleIndex = (frameIndex, titleCount) => {
 
 const HERO_TICKER_START_FRAME = 340
 const HERO_TICKER_FRAME_STEP = 66
+const HERO_BACKGROUND_PRELOAD_BATCH_SIZE = 12
+const HERO_BACKGROUND_PRELOAD_DELAY_MS = 30
 const HERO_FRAME_PRIORITY_RADIUS = 24
 const HERO_FRAME_DIRECTIONAL_FORWARD = 48
 const HERO_FRAME_DIRECTIONAL_BACKWARD = 16
-const HERO_FRAME_CACHE_RADIUS = 180
+const HERO_FRAME_CACHE_RADIUS = HERO_FRAME_COUNT
 
 const getHeroTickerIndex = (frameIndex, tickerCount) => {
   if (tickerCount <= 1 || frameIndex < HERO_TICKER_START_FRAME) {
@@ -133,6 +135,7 @@ function HeroSection() {
   const heroLastRequestedFrameRef = useRef(0)
   const heroLastDrawnFrameRef = useRef(-1)
   const heroFirstFramePaintedRef = useRef(false)
+  const heroFullPreloadStartedRef = useRef(false)
   const heroTitleIndexRef = useRef(0)
   const heroTickerIndexRef = useRef(0)
   const isMobileRef = useRef(false)
@@ -153,9 +156,11 @@ function HeroSection() {
   useEffect(() => {
     let frameId = 0
     let isDisposed = false
+    let preloadTimeout = 0
     const canvasContextRef = { current: null }
     const loadedFrames = heroFrameImagesRef.current
     const pendingFrames = heroPendingFramesRef.current
+    const preloadQueue = Array.from({ length: HERO_FRAME_COUNT - 1 }, (_, index) => index + 1)
 
     const drawFrame = (frameIndex) => {
       if (isMobileRef.current) {
@@ -240,6 +245,11 @@ function HeroSection() {
         return
       }
 
+      const preloadQueueIndex = preloadQueue.indexOf(frameIndex)
+      if (preloadQueueIndex >= 0) {
+        preloadQueue.splice(preloadQueueIndex, 1)
+      }
+
       const image = new Image()
       pendingFrames.add(frameIndex)
       image.decoding = 'async'
@@ -257,6 +267,29 @@ function HeroSection() {
           drawFrame(heroFrameIndexRef.current)
         }
       }
+    }
+
+    const startFullFramePreload = () => {
+      if (heroFullPreloadStartedRef.current) {
+        return
+      }
+
+      heroFullPreloadStartedRef.current = true
+
+      const loadNextBatch = () => {
+        if (isDisposed || preloadQueue.length === 0) {
+          return
+        }
+
+        const nextBatch = preloadQueue.splice(0, HERO_BACKGROUND_PRELOAD_BATCH_SIZE)
+        nextBatch.forEach((frameIndex) => {
+          ensureFrameLoaded(frameIndex)
+        })
+
+        preloadTimeout = window.setTimeout(loadNextBatch, HERO_BACKGROUND_PRELOAD_DELAY_MS)
+      }
+
+      loadNextBatch()
     }
 
     const syncFrameWindow = (frameIndex) => {
@@ -359,6 +392,8 @@ function HeroSection() {
     }
 
     syncCanvasSize()
+    ensureFrameLoaded(0)
+    startFullFramePreload()
     requestUpdate()
     window.addEventListener('scroll', requestUpdate, { passive: true })
     window.addEventListener('resize', syncCanvasSize)
@@ -367,6 +402,7 @@ function HeroSection() {
     return () => {
       isDisposed = true
       cancelAnimationFrame(frameId)
+      window.clearTimeout(preloadTimeout)
       loadedFrames.forEach((image) => {
         image.onload = null
         image.src = ''
