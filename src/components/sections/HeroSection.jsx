@@ -43,8 +43,8 @@ const getHeroTitleIndex = (frameIndex, titleCount) => {
 
 const HERO_TICKER_START_FRAME = 340
 const HERO_TICKER_FRAME_STEP = 66
-const HERO_BACKGROUND_PRELOAD_BATCH_SIZE = 12
-const HERO_BACKGROUND_PRELOAD_DELAY_MS = 30
+const HERO_BACKGROUND_PRELOAD_BATCH_SIZE = 4
+const HERO_BACKGROUND_PRELOAD_DELAY_MS = 120
 const HERO_FRAME_PRIORITY_RADIUS = 24
 const HERO_FRAME_DIRECTIONAL_FORWARD = 48
 const HERO_FRAME_DIRECTIONAL_BACKWARD = 16
@@ -168,6 +168,7 @@ function HeroSection() {
     let frameId = 0
     let isDisposed = false
     let preloadTimeout = 0
+    let idleCallbackId = 0
     const canvasContextRef = { current: null }
     const loadedFrames = heroFrameImagesRef.current
     const pendingFrames = heroPendingFramesRef.current
@@ -303,6 +304,43 @@ function HeroSection() {
       loadNextBatch()
     }
 
+    const scheduleFullFramePreload = () => {
+      if (heroFullPreloadStartedRef.current || isMobileRef.current) {
+        return
+      }
+
+      const runPreload = () => {
+        if (isDisposed) {
+          return
+        }
+
+        startFullFramePreload()
+      }
+
+      if (document.readyState === 'complete') {
+        if ('requestIdleCallback' in window) {
+          idleCallbackId = window.requestIdleCallback(runPreload, { timeout: 1500 })
+          return
+        }
+
+        preloadTimeout = window.setTimeout(runPreload, 1200)
+        return
+      }
+
+      const handleLoad = () => {
+        window.removeEventListener('load', handleLoad)
+
+        if ('requestIdleCallback' in window) {
+          idleCallbackId = window.requestIdleCallback(runPreload, { timeout: 1500 })
+          return
+        }
+
+        preloadTimeout = window.setTimeout(runPreload, 1200)
+      }
+
+      window.addEventListener('load', handleLoad, { once: true })
+    }
+
     const syncFrameWindow = (frameIndex) => {
       const previousFrameIndex = heroLastRequestedFrameRef.current
       const scrollDirection = frameIndex >= previousFrameIndex ? 1 : -1
@@ -354,7 +392,6 @@ function HeroSection() {
       canvas.style.height = `${viewportHeight}px`
 
       ensureFrameLoaded(heroFrameIndexRef.current)
-      syncFrameWindow(heroFrameIndexRef.current)
       drawBestAvailableFrame(heroFrameIndexRef.current)
     }
 
@@ -404,7 +441,7 @@ function HeroSection() {
 
     syncCanvasSize()
     ensureFrameLoaded(0)
-    startFullFramePreload()
+    scheduleFullFramePreload()
     requestUpdate()
     window.addEventListener('scroll', requestUpdate, { passive: true })
     window.addEventListener('resize', syncCanvasSize)
@@ -414,6 +451,9 @@ function HeroSection() {
       isDisposed = true
       cancelAnimationFrame(frameId)
       window.clearTimeout(preloadTimeout)
+      if ('cancelIdleCallback' in window && idleCallbackId) {
+        window.cancelIdleCallback(idleCallbackId)
+      }
       loadedFrames.forEach((image) => {
         image.onload = null
         image.src = ''
