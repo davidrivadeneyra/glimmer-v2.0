@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import useInViewport from '../../hooks/useInViewport'
 import useSectionReveal from '../../hooks/useSectionReveal'
 import useViewportVideo from '../../hooks/useViewportVideo'
+import Button from '../Button'
 
 const getOpportunityScrollSpan = (lineCount) => `${Math.max(lineCount * 55, 220)}vh`
 
@@ -143,10 +144,15 @@ function OpportunitySection({ opportunityLines }) {
                       {activeLine.line}
                     </span>
                   </span>
+                  
                 </div>
+                
               </div>
             ) : null}
           </div>
+          <Button href="mailto:hola@glimmer.ai" radius="full" background="white">
+                                    {t('nav.cta')}
+                                  </Button>
         </div>
       </div>
     </section>

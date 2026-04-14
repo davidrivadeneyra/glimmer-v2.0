@@ -45,6 +45,11 @@ const HERO_TICKER_START_FRAME = 170
 const HERO_TICKER_FRAME_STEP = 33
 const HERO_FRAME_PRELOAD_RADIUS = 150
 const HERO_FRAME_CACHE_RADIUS = 150
+const MOBILE_BREAKPOINT_MEDIA_QUERY = '(max-width: 767px)'
+const MOBILE_TITLE_TYPE_SPEED = 42
+const MOBILE_TITLE_HOLD_SPEED = 1250
+const MOBILE_TITLE_DELETE_SPEED = 22
+const MOBILE_TITLE_GAP_SPEED = 220
 
 const getHeroTickerIndex = (frameIndex, tickerCount) => {
   if (tickerCount <= 1 || frameIndex < HERO_TICKER_START_FRAME) {
@@ -131,20 +136,110 @@ function HeroSection() {
   const heroTitleIndexRef = useRef(0)
   const heroTickerIndexRef = useRef(0)
   const isMobileRef = useRef(false)
+  const [isMobile, setIsMobile] = useState(false)
   const [heroLogoScale, setHeroLogoScale] = useState(1)
   const [heroTitleIndex, setHeroTitleIndex] = useState(0)
   const [heroContentStyle, setHeroContentStyle] = useState(() => getHeroContentStyle(0))
   const [heroTickerStyle, setHeroTickerStyle] = useState(() => getHeroTickerStyle(0))
   const [heroTickerIndex, setHeroTickerIndex] = useState(0)
+  const [mobileTerminalText, setMobileTerminalText] = useState('')
 
   const heroTitles = t('hero.titles', { returnObjects: true })
   const tickerWords = t('ticker.words', { returnObjects: true })
+  const heroTitlesKey = JSON.stringify(heroTitles)
 
   useSectionReveal(heroRef, [heroTitles])
   useViewportVideo(heroVideoRef)
   const isHeroInViewport = useInViewport(heroRef, { threshold: 0.15 })
 
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined
+    }
+
+    const mediaQuery = window.matchMedia(MOBILE_BREAKPOINT_MEDIA_QUERY)
+
+    const syncMobileState = () => {
+      const matches = mediaQuery.matches
+      isMobileRef.current = matches
+      setIsMobile(matches)
+    }
+
+    syncMobileState()
+    mediaQuery.addEventListener('change', syncMobileState)
+
+    return () => {
+      mediaQuery.removeEventListener('change', syncMobileState)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMobile || !heroTitles.length) {
+      setMobileTerminalText('')
+      return undefined
+    }
+
+    const sequences = heroTitles.map((title) => title.join('\n'))
+    let timeoutId = 0
+    let sequenceIndex = 0
+    let charIndex = 0
+    let deleting = false
+
+    const renderFrame = () => {
+      const visibleText = sequences[sequenceIndex].slice(0, charIndex)
+      setMobileTerminalText(visibleText)
+    }
+
+    const step = () => {
+      const activeSequence = sequences[sequenceIndex]
+
+      if (!deleting && charIndex < activeSequence.length) {
+        charIndex += 1
+        renderFrame()
+        timeoutId = window.setTimeout(step, MOBILE_TITLE_TYPE_SPEED)
+        return
+      }
+
+      if (!deleting) {
+        deleting = true
+        timeoutId = window.setTimeout(step, MOBILE_TITLE_HOLD_SPEED)
+        return
+      }
+
+      if (charIndex > 0) {
+        charIndex -= 1
+        renderFrame()
+        timeoutId = window.setTimeout(step, MOBILE_TITLE_DELETE_SPEED)
+        return
+      }
+
+      deleting = false
+      sequenceIndex = (sequenceIndex + 1) % sequences.length
+      timeoutId = window.setTimeout(step, MOBILE_TITLE_GAP_SPEED)
+    }
+
+    setMobileTerminalText('')
+    timeoutId = window.setTimeout(step, MOBILE_TITLE_GAP_SPEED)
+
+    return () => {
+      window.clearTimeout(timeoutId)
+    }
+  }, [heroTitlesKey, isMobile])
+
+  useEffect(() => {
+    if (isMobile) {
+      setHeroLogoScale(1)
+      setHeroContentStyle({
+        opacity: 1,
+        transform: 'translate3d(0, 0, 0)',
+      })
+      setHeroTickerStyle({
+        opacity: 0,
+        transform: 'translate3d(0, 32px, 0)',
+      })
+      return undefined
+    }
+
     let frameId = 0
     let isDisposed = false
     const canvasContextRef = { current: null }
@@ -252,7 +347,7 @@ function HeroSection() {
 
     const syncCanvasSize = () => {
       const canvas = heroCanvasRef.current
-      isMobileRef.current = window.matchMedia('(max-width: 767px)').matches
+      isMobileRef.current = window.matchMedia(MOBILE_BREAKPOINT_MEDIA_QUERY).matches
 
       if (!canvas) {
         return
@@ -277,6 +372,19 @@ function HeroSection() {
     }
 
     const updateHeroProgress = () => {
+      if (isMobileRef.current) {
+        setHeroLogoScale(1)
+        setHeroContentStyle({
+          opacity: 1,
+          transform: 'translate3d(0, 0, 0)',
+        })
+        setHeroTickerStyle({
+          opacity: 0,
+          transform: 'translate3d(0, 32px, 0)',
+        })
+        return
+      }
+
       const hero = heroRef.current
       if (!hero) {
         return
@@ -339,7 +447,7 @@ function HeroSection() {
       window.removeEventListener('resize', syncCanvasSize)
       window.removeEventListener('resize', requestUpdate)
     }
-  }, [heroTitles, tickerWords.length])
+  }, [heroTitlesKey, isMobile, tickerWords.length])
 
   return (
     <section className="hero-section" ref={heroRef}>
@@ -393,22 +501,41 @@ function HeroSection() {
         <div className="page-shell">
           <div
             className="hero-grid"
+            data-mobile={isMobile ? 'true' : 'false'}
             id="top"
             style={{
-              ...heroContentStyle,
-              pointerEvents: heroContentStyle.opacity <= 0 ? 'none' : undefined,
-              transition: 'opacity 120ms linear, transform 120ms linear',
+              ...(isMobile
+                ? {
+                    opacity: 1,
+                    transform: 'translate3d(0, 0, 0)',
+                    pointerEvents: undefined,
+                    transition: 'none',
+                  }
+                : {
+                    ...heroContentStyle,
+                    pointerEvents: heroContentStyle.opacity <= 0 ? 'none' : undefined,
+                    transition: 'opacity 120ms linear, transform 120ms linear',
+                  }),
             }}
           >
             <div data-reveal style={{ '--reveal-delay': '140ms' }} className='w-full'>
               <h1 className="hero-title type-title-bigger-size type-title-light pb-6 w-full">
                 <span className="hero-title-mask">
-                  <span key={heroTitleIndex} className="hero-title-text">
+                  <span
+                    key={heroTitleIndex}
+                    className={`hero-title-text ${isMobile ? 'hero-title-text--mobile-hidden' : ''}`}
+                  >
                     {heroTitles[heroTitleIndex].map((line) => (
                       <span key={line} className="hero-title-line">
                         {line}
                       </span>
                     ))}
+                  </span>
+                  <span className={`hero-title-terminal ${isMobile ? 'is-mobile-visible' : ''}`} aria-live="polite">
+                    <span className="hero-title-terminal__line">
+                      <span className="hero-title-terminal__text">{mobileTerminalText}</span>
+                      <span className="hero-title-terminal__cursor" aria-hidden="true">|</span>
+                    </span>
                   </span>
                 </span>
               </h1>
@@ -417,7 +544,7 @@ function HeroSection() {
 
             <div className="hero-actions" data-reveal style={{ '--reveal-delay': '220ms' }}>
               <div className="hero-trust">
-                <p>{t('hero.trust')}</p>
+                <p className='type-description-size text-description-dark pb-6 md:pb-4'>{t('hero.trust')}</p>
                 <div className="hero-logo-row">
                   <div className={`hero-logo-track ${isHeroInViewport ? 'is-motion-active' : ''}`}>
                     {[...clientLogos, ...clientLogos].map((logo, index) => (
@@ -446,6 +573,7 @@ function HeroSection() {
                   {t('hero.secondaryCta')}
                 </Button>
               </div>
+              <div className="hero-mobile-ticker" aria-hidden="true" />
             </div>
           </div>
         </div>

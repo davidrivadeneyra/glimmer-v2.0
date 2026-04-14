@@ -47,8 +47,11 @@ function FaqCtaSection() {
             <Button href="mailto:hola@glimmer.ai" radius="full" background="white">
               {t('nav.cta')}
             </Button>
-            <div className="hero-trust  faq-cta-trust mt-8" aria-label="Clientes">
-              <p className="type-subheadline-size text-center">{t('faqCta.partnersLabel')}</p>
+            <div
+              className="faq-cta-trust mt-8 hero-trust"
+              aria-label="Clientes"
+            >
+              <p className="type-description-size text-description-dark pb-4 text-center">{t('faqCta.partnersLabel')}</p>
               <div className="faq-cta-logo-row">
                 <div className={`cta-logo-track  ${isSectionInViewport ? 'is-motion-active' : ''}`}>
                   {[...clientLogos, ...clientLogos].map((logo, index) => (
