@@ -2323,7 +2323,7 @@ select {
 .testimonials-section {
   padding: 128px 0;
   background: var(--surface-light);
-  color: #010104;
+  color: var(--description-light);
   overflow: hidden;
 }
 
