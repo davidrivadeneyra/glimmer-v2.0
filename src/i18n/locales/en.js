@@ -134,12 +134,12 @@ const en = {
       {
         title: 'Professional Services',
         copy:
-          'Law firms, consultancies and specialised firms anticipating regulatory changes and market trends.',
+          'Law firms, consultancies, agencies and specialised firms anticipating regulatory changes, tenders and market trends.',
       },
       {
-        title: 'Marketing Agencies',
+        title: 'Mobility',
         copy:
-          'Platform changes, algorithms, consumer trends and digital ecosystem movements.',
+          'Changes in regulation, digitalization, new platforms, transport models, and sector dynamics.',
       },
       {
         title: 'Real Estate',
@@ -164,12 +164,12 @@ const en = {
       {
         title: '01 - Web App',
         copy:
-          'Access the platform from any device and review detected signals, their context and recommended actions.',
+          'Access the platform from any device.',
       },
       {
         title: '02 - Microsoft Teams & Slack',
         copy:
-          'Receive alerts directly in work channels so teams can evaluate impact and decide without leaving their workflow.',
+          'Receive alerts directly in work channels without leaving their workflow.',
       },
       {
         title: '03 - Gmail',
@@ -179,7 +179,7 @@ const en = {
       {
         title: '04 - Advanced Integrations',
         copy:
-          'In advanced plans Glimmer can integrate with the company technology ecosystem to adapt alert delivery to existing workflows.',
+          'Glimmer can integrate with the company technology ecosystem to adapt alert delivery to existing workflows.',
       },
     ],
   },
