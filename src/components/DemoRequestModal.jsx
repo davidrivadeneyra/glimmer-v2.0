@@ -164,7 +164,7 @@ function DemoRequestModal({ open, onOpenChange }) {
 
         <div className="demo-modal__header">
           <p className="demo-modal__eyebrow">{t('demoModal.eyebrow')}</p>
-          <h2 id="demo-modal-title" className="demo-modal__title">
+          <h2 id="demo-modal-title" className="type-title-regular-size">
             {t('demoModal.title')}
           </h2>
           <p id="demo-modal-description" className="demo-modal__description">
@@ -173,10 +173,14 @@ function DemoRequestModal({ open, onOpenChange }) {
         </div>
 
         <form className="demo-modal__form" onSubmit={handleSubmit} noValidate>
-          <label className="demo-modal__field">
-            <span>{t('demoModal.fields.fullName')}</span>
+          <label
+            className="demo-modal__field"
+            data-invalid={Boolean(fieldErrors.fullName) || undefined}
+          >
+            <span className="demo-modal__field-label">{t('demoModal.fields.fullName')}</span>
             <input
               ref={fullNameInputRef}
+              className="demo-modal__field-control"
               type="text"
               name="fullName"
               value={formValues.fullName}
@@ -186,16 +190,20 @@ function DemoRequestModal({ open, onOpenChange }) {
               aria-describedby={fieldErrors.fullName ? 'demo-full-name-error' : undefined}
               disabled={submitStatus === 'submitting' || submitStatus === 'success'}
             />
-            {fieldErrors.fullName ? (
-              <span id="demo-full-name-error" className="demo-modal__error">
-                {fieldErrors.fullName}
-              </span>
-            ) : null}
           </label>
+          {fieldErrors.fullName ? (
+            <span id="demo-full-name-error" className="demo-modal__error">
+              {fieldErrors.fullName}
+            </span>
+          ) : null}
 
-          <label className="demo-modal__field">
-            <span>{t('demoModal.fields.email')}</span>
+          <label
+            className="demo-modal__field"
+            data-invalid={Boolean(fieldErrors.email) || undefined}
+          >
+            <span className="demo-modal__field-label">{t('demoModal.fields.email')}</span>
             <input
+              className="demo-modal__field-control"
               type="email"
               name="email"
               value={formValues.email}
@@ -205,16 +213,17 @@ function DemoRequestModal({ open, onOpenChange }) {
               aria-describedby={fieldErrors.email ? 'demo-email-error' : undefined}
               disabled={submitStatus === 'submitting' || submitStatus === 'success'}
             />
-            {fieldErrors.email ? (
-              <span id="demo-email-error" className="demo-modal__error">
-                {fieldErrors.email}
-              </span>
-            ) : null}
           </label>
+          {fieldErrors.email ? (
+            <span id="demo-email-error" className="demo-modal__error">
+              {fieldErrors.email}
+            </span>
+          ) : null}
 
           <label className="demo-modal__field">
-            <span>{t('demoModal.fields.phone')}</span>
+            <span className="demo-modal__field-label">{t('demoModal.fields.phone')}</span>
             <input
+              className="demo-modal__field-control"
               type="tel"
               name="phone"
               value={formValues.phone}
