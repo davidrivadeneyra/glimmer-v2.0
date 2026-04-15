@@ -539,6 +539,20 @@ function HeroSection() {
                   </span>
                 </span>
               </h1>
+              <div className="hero-mobile-title-ticker opacity-75" aria-hidden="true">
+                <div className="hero-mobile-title-ticker__viewport">
+                  <span className="hero-mobile-title-ticker__mask">
+                    {[...tickerWords, ...tickerWords].map((word, index) => (
+                      <span
+                        key={`${word}-${index}`}
+                        className="hero-mobile-title-ticker__text ticker-word type-title-regular-size type-title-light"
+                      >
+                        {word}
+                      </span>
+                    ))}
+                  </span>
+                </div>
+              </div>
               <p className='type-description-size w-full'>{t('hero.description')}</p>
             </div>
 
@@ -573,7 +587,6 @@ function HeroSection() {
                   {t('hero.secondaryCta')}
                 </Button>
               </div>
-              <div className="hero-mobile-ticker" aria-hidden="true" />
             </div>
           </div>
         </div>

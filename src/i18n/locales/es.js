@@ -69,8 +69,7 @@ const es = {
         id: '01',
         title: 'Detección',
         description:
-          'Monitorizamos continuamente fuentes, bases de datos y señales del mercado en tiempo real.',
-        highlight: 'Detectamos las señales que afectan a la dirección de tu negocio.',
+          'Detectamos las señales que afectan a la dirección de tu negocio.',
         bullets: [
           'Competidores y empresas a seguir: Movimientos estratégicos, adquisiciones, lanzamientos o cambios de posicionamiento.',
           'Reputación de marca: Noticias, rankings o menciones que impactan en la percepción y posicionamiento de tu empresa.',
