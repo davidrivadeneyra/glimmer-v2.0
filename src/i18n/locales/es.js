@@ -139,12 +139,12 @@ const es = {
       {
         title: 'Servicios Profesionales',
         copy:
-          'Despachos, consultoras y firmas especializadas que anticipan cambios regulatorios y tendencias de mercado.',
+          'Despachos, consultoras, agencias y firmas especializadas que anticipan cambios regulatorios, descubren licitaciones y tendencias de mercado.',
       },
       {
-        title: 'Agencias de Marketing',
+        title: 'Movilidad',
         copy:
-          'Cambios en plataformas, algoritmos, tendencias de consumo y movimientos del ecosistema digital.',
+          'Cambios en regulación, digitalización, nuevas plataformas, modelos de transporte y dinámicas del sector.',
       },
       {
         title: 'Real Estate',
@@ -169,22 +169,22 @@ const es = {
       {
         title: '01 - Web App',
         copy:
-          'Accede a la plataforma desde cualquier dispositivo y revisa las señales detectadas, su contexto y las acciones recomendadas.',
+          'Accede a la plataforma desde cualquier dispositivo.',
       },
       {
         title: '02 - Microsoft Teams & Slack',
         copy:
-          'Recibe alertas directamente en los canales de trabajo para que los equipos evalúen el impacto y decidan sin salir de su workflow.',
+          'Recibe alertas directamente en los canales de trabajo sin salir de su workflow.',
       },
       {
         title: '03 - Gmail',
         copy:
-          'Notificaciones claras cuando aparece una señal relevante para mantener visibilidad incluso fuera de la plataforma.',
+          'Notificaciones claras cuando aparece una alerta de alto impacto.',
       },
       {
         title: '04 - Integraciones avanzadas',
         copy:
-          'En los planes avanzados, Glimmer puede integrarse con el ecosistema tecnológico de la empresa para adaptar la entrega de alertas a los flujos de trabajo existentes.',
+          'Glimmer puede integrarse con el ecosistema tecnológico de la empresa para adaptar la entrega de alertas a los flujos de trabajo existentes.',
       },
     ],
   },
