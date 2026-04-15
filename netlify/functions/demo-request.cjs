@@ -65,10 +65,42 @@ const findPersonByEmail = async (email) => {
   return match?.item?.id || match?.id || null
 }
 
-const createPerson = async ({ fullName, email, phone }) => {
+const findOrganizationByName = async (company) => {
+  const url = getPipedriveUrl('/v1/organizations/search')
+  url.searchParams.set('term', company)
+  url.searchParams.set('fields', 'name')
+  url.searchParams.set('exact_match', 'true')
+
+  const response = await fetch(url)
+  const payload = await response.json().catch(() => ({}))
+
+  if (!response.ok || payload.success === false) {
+    throw new Error(payload.error || 'Could not search Pipedrive organization')
+  }
+
+  const match = payload.data?.items?.[0]
+  return match?.item?.id || match?.id || null
+}
+
+const createOrganization = async (company) => {
+  const payload = await requestPipedrive('/v1/organizations', {
+    method: 'POST',
+    body: JSON.stringify({
+      name: company,
+    }),
+  })
+
+  return payload.data?.id
+}
+
+const createPerson = async ({ fullName, email, phone, orgId }) => {
   const body = {
     name: fullName,
     email: [{ value: email, primary: true, label: 'work' }],
+  }
+
+  if (orgId) {
+    body.org_id = orgId
   }
 
   if (phone) {
@@ -83,10 +115,14 @@ const createPerson = async ({ fullName, email, phone }) => {
   return payload.data?.id
 }
 
-const createDeal = async ({ fullName, personId }) => {
+const createDeal = async ({ fullName, company, personId, orgId }) => {
   const body = {
-    title: `Solicitud de demo - ${fullName}`,
+    title: `Solicitud de demo - ${company}`,
     person_id: personId,
+  }
+
+  if (orgId) {
+    body.org_id = orgId
   }
 
   if (process.env.PIPEDRIVE_OWNER_ID) {
@@ -127,25 +163,29 @@ exports.handler = async (event) => {
   }
 
   const fullName = String(body.fullName || '').trim()
+  const company = String(body.company || '').trim()
   const email = String(body.email || '').trim().toLowerCase()
   const phone = String(body.phone || '').trim()
 
-  if (!fullName || !isValidEmail(email)) {
+  if (!fullName || !company || !isValidEmail(email)) {
     return jsonResponse(400, { error: 'Invalid demo request data' })
   }
 
   try {
+    const existingOrgId = await findOrganizationByName(company)
+    const orgId = existingOrgId || await createOrganization(company)
     const existingPersonId = await findPersonByEmail(email)
-    const personId = existingPersonId || await createPerson({ fullName, email, phone })
+    const personId = existingPersonId || await createPerson({ fullName, email, phone, orgId })
 
     if (!personId) {
       throw new Error('Could not resolve Pipedrive person')
     }
 
-    const dealId = await createDeal({ fullName, personId })
+    const dealId = await createDeal({ fullName, company, personId, orgId })
 
     return jsonResponse(200, {
       ok: true,
+      orgId,
       personId,
       dealId,
     })

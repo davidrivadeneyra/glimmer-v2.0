@@ -22,11 +22,13 @@ const en = {
     error: 'We could not send the request. Please try again.',
     fields: {
       fullName: 'Full name',
+      company: 'Company',
       email: 'Email',
       phone: 'Phone optional',
     },
     errors: {
       fullName: 'Enter your full name.',
+      company: 'Enter your company name.',
       email: 'Enter a valid email.',
     },
   },

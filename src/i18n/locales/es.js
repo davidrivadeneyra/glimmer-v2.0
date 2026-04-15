@@ -22,11 +22,13 @@ const es = {
     error: 'No pudimos enviar la solicitud. Inténtalo de nuevo.',
     fields: {
       fullName: 'Nombre y apellido',
+      company: 'Empresa',
       email: 'Mail',
       phone: 'Teléfono opcional',
     },
     errors: {
       fullName: 'Ingresa tu nombre y apellido.',
+      company: 'Ingresa el nombre de tu empresa.',
       email: 'Ingresa un mail válido.',
     },
   },

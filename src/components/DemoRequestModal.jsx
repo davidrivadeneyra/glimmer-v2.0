@@ -5,6 +5,7 @@ import Button from './Button'
 
 const initialFormState = {
   fullName: '',
+  company: '',
   email: '',
   phone: '',
 }
@@ -90,10 +91,15 @@ function DemoRequestModal({ open, onOpenChange }) {
   const validateForm = () => {
     const nextErrors = {}
     const fullName = formValues.fullName.trim()
+    const company = formValues.company.trim()
     const email = formValues.email.trim()
 
     if (!fullName) {
       nextErrors.fullName = t('demoModal.errors.fullName')
+    }
+
+    if (!company) {
+      nextErrors.company = t('demoModal.errors.company')
     }
 
     if (!email || !isValidEmail(email)) {
@@ -141,6 +147,7 @@ function DemoRequestModal({ open, onOpenChange }) {
         },
         body: JSON.stringify({
           fullName: formValues.fullName.trim(),
+          company: formValues.company.trim(),
           email: formValues.email.trim(),
           phone: formValues.phone.trim() || null,
         }),
@@ -226,6 +233,29 @@ function DemoRequestModal({ open, onOpenChange }) {
           {fieldErrors.fullName ? (
             <span id="demo-full-name-error" className="demo-modal__error">
               {fieldErrors.fullName}
+            </span>
+          ) : null}
+
+          <label
+            className="demo-modal__field"
+            data-invalid={Boolean(fieldErrors.company) || undefined}
+          >
+            <span className="demo-modal__field-label">{t('demoModal.fields.company')}</span>
+            <input
+              className="demo-modal__field-control"
+              type="text"
+              name="company"
+              value={formValues.company}
+              onChange={handleFieldChange}
+              autoComplete="organization"
+              aria-invalid={Boolean(fieldErrors.company)}
+              aria-describedby={fieldErrors.company ? 'demo-company-error' : undefined}
+              disabled={submitStatus === 'submitting' || submitStatus === 'success'}
+            />
+          </label>
+          {fieldErrors.company ? (
+            <span id="demo-company-error" className="demo-modal__error">
+              {fieldErrors.company}
             </span>
           ) : null}
 
