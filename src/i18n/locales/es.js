@@ -42,7 +42,7 @@ const es = {
       {
         value: '125.000 EUR',
         description:
-          'Coste anual visible en procesos manuales de inteligencia de mercado por empresa. Sin incluir el coste de las señales no detectadas.',
+          'Coste visible por empresa generado por procesos manuales, genéricos y fragmentados de inteligencia de mercado.',
       },
     ],
   },
