@@ -562,13 +562,20 @@ function HeroSection({ onDemoRequest }) {
                 <p className='type-description-size text-description-dark pb-4 md:pb-4'>{t('hero.trust')}</p>
                 <div className="hero-logo-row">
                   <div className={`hero-logo-track ${isHeroInViewport ? 'is-motion-active' : ''}`}>
-                    {[...clientLogos, ...clientLogos].map((logo, index) => (
+                    {[0, 1, 2].map((copyIndex) => (
                       <span
-                        key={`${logo.name}-${index}`}
-                        className="hero-logo-item"
-                        aria-hidden={index >= clientLogos.length}
+                        key={`hero-logo-set-${copyIndex}`}
+                        className="hero-logo-set"
+                        aria-hidden={copyIndex > 0}
                       >
-                        <img src={logo.src} alt={index < clientLogos.length ? logo.name : ''} />
+                        {clientLogos.map((logo) => (
+                          <span
+                            key={`${logo.name}-${copyIndex}`}
+                            className="hero-logo-item"
+                          >
+                            <img src={logo.src} alt={copyIndex === 0 ? logo.name : ''} />
+                          </span>
+                        ))}
                       </span>
                     ))}
                   </div>

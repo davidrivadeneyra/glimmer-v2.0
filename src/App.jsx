@@ -17,6 +17,8 @@ import UseCasesSectionStack from './components/sections/UseCasesSectionStack'
 import WorkflowSection from './components/sections/WorkflowSection'
 import { getLegalDocumentByPath, getPathLanguage } from './legal/content'
 
+const siteOrigin = 'https://itsglimmer.com'
+
 const openGraphImages = {
   en: '/assets/open-graph/Open graph-English.png',
   es: '/assets/open-graph/Open graph-Spanish.png',
@@ -45,6 +47,18 @@ const setMetaContent = (selector, content, attributeName = 'content') => {
   element.setAttribute(attributeName, content)
 }
 
+const setLinkHref = (selector, href) => {
+  let element = document.head.querySelector(selector)
+
+  if (!element) {
+    element = document.createElement('link')
+    element.setAttribute('rel', selector.match(/link\[rel="([^"]+)"\]/)?.[1] ?? '')
+    document.head.appendChild(element)
+  }
+
+  element.setAttribute('href', href)
+}
+
 function App() {
   const { t, i18n } = useTranslation()
   const [isDemoModalOpen, setIsDemoModalOpen] = useState(false)
@@ -71,12 +85,13 @@ function App() {
     const pageTitle = legalDocument ? `Glimmer | ${legalDocument.title}` : t('meta.title')
     const pageDescription = legalDocument?.description || t('hero.description')
     const imagePath = openGraphImages[resolvedLanguage] || openGraphImages.es
-    const imageUrl = new URL(imagePath, window.location.origin).href
-    const pageUrl = new URL(pathname, window.location.origin).href
+    const imageUrl = new URL(imagePath, siteOrigin).href
+    const pageUrl = new URL(pathname, siteOrigin).href
 
     document.documentElement.lang = resolvedLanguage
     document.title = pageTitle
 
+    setLinkHref('link[rel="canonical"]', pageUrl)
     setMetaContent('meta[name="description"]', pageDescription)
     setMetaContent('meta[property="og:type"]', 'website')
     setMetaContent('meta[property="og:site_name"]', 'Glimmer')
@@ -84,12 +99,17 @@ function App() {
     setMetaContent('meta[property="og:description"]', pageDescription)
     setMetaContent('meta[property="og:url"]', pageUrl)
     setMetaContent('meta[property="og:image"]', imageUrl)
+    setMetaContent('meta[property="og:image:secure_url"]', imageUrl)
+    setMetaContent('meta[property="og:image:type"]', 'image/png')
+    setMetaContent('meta[property="og:image:width"]', '1200')
+    setMetaContent('meta[property="og:image:height"]', '630')
     setMetaContent('meta[property="og:image:alt"]', 'Glimmer')
     setMetaContent('meta[property="og:locale"]', openGraphLocales[resolvedLanguage] || openGraphLocales.es)
     setMetaContent('meta[name="twitter:card"]', 'summary_large_image')
     setMetaContent('meta[name="twitter:title"]', pageTitle)
     setMetaContent('meta[name="twitter:description"]', pageDescription)
     setMetaContent('meta[name="twitter:image"]', imageUrl)
+    setMetaContent('meta[name="twitter:image:alt"]', 'Glimmer')
   }, [i18n.resolvedLanguage, legalDocument, pathLanguage, pathname, t])
 
   if (legalDocument) {

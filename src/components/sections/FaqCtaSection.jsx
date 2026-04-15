@@ -37,7 +37,7 @@ function FaqCtaSection({ onDemoRequest }) {
               playsInline
               preload="metadata"
             >
-              <source src="/assets/video/video-glimmer-extended.webm" type="video/webm" />
+              <source src="/assets/video/final-video-hero-limmer.mp4" type="video/mp4" />
             </video>
             <div className="faq-cta-media-wash" />
           </div>
@@ -55,13 +55,20 @@ function FaqCtaSection({ onDemoRequest }) {
               <p className="type-description-size text-description-dark pb-4 text-center">{t('faqCta.partnersLabel')}</p>
               <div className="faq-cta-logo-row">
                 <div className={`cta-logo-track  ${isSectionInViewport ? 'is-motion-active' : ''}`}>
-                  {[...clientLogos, ...clientLogos].map((logo, index) => (
+                  {[0, 1, 2].map((copyIndex) => (
                     <span
-                      key={`${logo.name}-${index}`}
-                      className="hero-logo-item"
-                      aria-hidden={index >= clientLogos.length}
+                      key={`faq-cta-logo-set-${copyIndex}`}
+                      className="hero-logo-set"
+                      aria-hidden={copyIndex > 0}
                     >
-                      <img src={logo.src} alt={index < clientLogos.length ? logo.name : ''} />
+                      {clientLogos.map((logo) => (
+                        <span
+                          key={`${logo.name}-${copyIndex}`}
+                          className="hero-logo-item"
+                        >
+                          <img src={logo.src} alt={copyIndex === 0 ? logo.name : ''} />
+                        </span>
+                      ))}
                     </span>
                   ))}
                 </div>

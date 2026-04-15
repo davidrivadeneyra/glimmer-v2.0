@@ -941,7 +941,6 @@ select {
   display: flex;
   width: max-content;
   align-items: center;
-  gap: 32px;
   white-space: nowrap;
   animation: hero-logo-marquee 24s linear infinite;
   animation-play-state: paused;
@@ -954,6 +953,13 @@ select {
 .hero-logo-item {
   display: inline-flex;
   align-items: center;
+}
+
+.hero-logo-set {
+  display: inline-flex;
+  align-items: center;
+  gap: 32px;
+  padding-right: 32px;
 }
 
 .hero-logo-item img {
@@ -982,7 +988,6 @@ select {
   display: flex;
   width: max-content;
   align-items: center;
-  gap: 32px;
   white-space: nowrap;
   animation: hero-logo-marquee 24s linear infinite;
   animation-play-state: paused;
@@ -2781,7 +2786,7 @@ select {
   }
 
   to {
-    transform: translate3d(calc(-50% - 16px), 0, 0);
+    transform: translate3d(-33.333333%, 0, 0);
   }
 }
 

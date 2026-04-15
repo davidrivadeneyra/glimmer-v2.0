@@ -112,7 +112,7 @@ En mobile el hero no usa canvas.
 
 Usa:
 
-- [public/assets/video/video-glimmer-extended.webm](/Users/davidrivadeneyra/Documents/Code/glimmer%202.0/public/assets/video/video-glimmer-extended.webm)
+- [public/assets/video/final-video-hero-limmer.mp4](/Users/davidrivadeneyra/Documents/Code/glimmer%202.0/public/assets/video/final-video-hero-limmer.mp4)
 
 El componente renderiza también un `<video>`, pero:
 
