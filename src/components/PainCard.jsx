@@ -29,7 +29,7 @@ PainCard.propTypes = {
 
 PainCard.defaultProps = {
   background: undefined,
-  logoSrc: '/assets/isotipo-red.svg',
+  logoSrc: '/assets/logos/isotipo-red.svg',
 }
 
 export default PainCard

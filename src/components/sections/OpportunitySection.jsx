@@ -127,7 +127,7 @@ function OpportunitySection({ opportunityLines, onDemoRequest }) {
           <div className="opportunity-meta" data-reveal style={{ '--reveal-delay': '40ms' }}>
             <img
               className={`ticker-logo spin-loop h-12 w-12 mb-8 ${isSectionInViewport ? 'is-motion-active' : ''}`}
-              src="/assets/isotipo.svg"
+              src="/assets/logos/isotipo.svg"
               alt=""
             />
             <span className="type-subheadline-size opacity-40">{t('opportunity.eyebrow')}</span>

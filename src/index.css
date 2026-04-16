@@ -549,6 +549,21 @@ select {
   pointer-events: none;
 }
 
+.hero-video-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.hero-video-fallback.is-hidden {
+  opacity: 0;
+}
+
 .hero-isotipo {
   position: absolute;
   top: 50%;
@@ -1920,7 +1935,7 @@ select {
   left: 0;
   width: 16px;
   height: 16px;
-  background: url('/assets/isotipo.svg') center / contain no-repeat;
+  background: url('/assets/logos/isotipo.svg') center / contain no-repeat;
 }
 
 .workflow-media {
@@ -2917,6 +2932,16 @@ select {
     height: 100%;
     width: 100%;
     max-width: none;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .hero-video.is-ready {
+    opacity: 1;
+  }
+
+  .hero-video-fallback {
+    display: block;
   }
 
   .hero-isotipo {

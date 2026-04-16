@@ -6,7 +6,7 @@ import useSectionReveal from '../../hooks/useSectionReveal'
 function TestimonialCard({ item, delay }) {
   return (
     <article className="testimonial-card" data-reveal style={{ '--reveal-delay': delay }}>
-      <img className="testimonial-quote" src="/assets/quote.svg" alt="" />
+      <img className="testimonial-quote" src="/assets/logos/quote.svg" alt="" />
       <div className="testimonial-body">
         <p>{item.quote}</p>
         <span>{item.role}</span>

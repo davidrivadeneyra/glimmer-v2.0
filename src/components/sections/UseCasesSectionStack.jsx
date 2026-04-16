@@ -257,7 +257,7 @@ function UseCasesSectionStack({ useCases }) {
                   className={`ticker-logo spin-loop h-12 w-12 ${isSectionInViewport ? 'is-motion-active' : ''}`}
                   draggable={false}
                   onDragStart={preventNativeDrag}
-                  src="/assets/isotipo.svg"
+                  src="/assets/logos/isotipo.svg"
                   alt=""
                 />
                 <div>

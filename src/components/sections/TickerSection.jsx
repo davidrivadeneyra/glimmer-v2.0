@@ -96,7 +96,7 @@ function TickerSection({ words }) {
           <div className="ticker-top">
             <img
               className="ticker-logo spin-loop"
-              src="/assets/isotipo-dark.svg"
+              src="/assets/logos/isotipo-dark.svg"
               alt=""
               data-reveal
               style={{ '--reveal-delay': '40ms' }}

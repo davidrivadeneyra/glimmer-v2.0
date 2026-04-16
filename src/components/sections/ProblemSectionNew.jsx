@@ -16,11 +16,11 @@ const painCardBackgrounds = [
 ]
 
 const painCardLogos = [
-  '/assets/isotipo-red.svg',
-  '/assets/isotipo-blue.svg',
-  '/assets/isotipo-magenta.svg',
-  '/assets/isotipo-yellow.svg',
-  '/assets/isotipo-violet.svg',
+  '/assets/logos/isotipo-red.svg',
+  '/assets/logos/isotipo-blue.svg',
+  '/assets/logos/isotipo-magenta.svg',
+  '/assets/logos/isotipo-yellow.svg',
+  '/assets/logos/isotipo-violet.svg',
 ]
 
 function splitProblemText(titleNode) {
@@ -86,7 +86,7 @@ function ProblemSection({ painPoints }) {
       <div className='fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center pointer-events-none z-0 opacity-40'>
         <img
           className={`max-w-none spin-loop-slow w-[1500px] h-[1500px] md:w-[2500px] md:h-[2500px] ${isSectionInViewport ? 'is-motion-active' : ''}`}
-          src={isSectionInViewport ? 'assets/logo-outline-white-bigger.svg' : undefined}
+          src={isSectionInViewport ? '/assets/logos/logo-outline-white-bigger.svg' : undefined}
           alt=""
           width="2500"
           height="2500"

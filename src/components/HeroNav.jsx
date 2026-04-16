@@ -89,7 +89,7 @@ function HeroNav({ onDemoRequest }) {
         <div className={`hero-nav ${isOnLightSection ? 'hero-nav--light-section' : ''}`}>
           <a className="hero-brand" href="#top" aria-label="Glimmer">
             <img
-              src={isOnLightSection ? '/assets/isologotipo-dark.svg' : '/assets/isologotipo.svg'}
+              src={isOnLightSection ? '/assets/logos/isologotipo-dark.svg' : '/assets/logos/isologotipo.svg'}
               alt="Glimmer"
             />
           </a>

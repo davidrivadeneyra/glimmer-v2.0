@@ -47,7 +47,7 @@ function LogoFooterSection() {
         {shouldRenderLogo ? (
           <img
             className="logo-footer-mark"
-            src="/assets/isologotipo-dark.svg"
+            src="/assets/logos/isologotipo-dark.svg"
             alt="Glimmer"
             loading="eager"
             decoding="async"

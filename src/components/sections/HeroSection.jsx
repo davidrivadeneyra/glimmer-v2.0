@@ -144,6 +144,7 @@ function HeroSection({ onDemoRequest }) {
   const [heroTickerStyle, setHeroTickerStyle] = useState(() => getHeroTickerStyle(0))
   const [heroTickerIndex, setHeroTickerIndex] = useState(0)
   const [mobileTerminalText, setMobileTerminalText] = useState('')
+  const [isHeroVideoReady, setIsHeroVideoReady] = useState(false)
 
   const heroTitles = t('hero.titles', { returnObjects: true })
   const tickerWords = t('ticker.words', { returnObjects: true })
@@ -226,6 +227,33 @@ function HeroSection({ onDemoRequest }) {
       window.clearTimeout(timeoutId)
     }
   }, [heroTitlesKey, isMobile])
+
+  useEffect(() => {
+    const video = heroVideoRef.current
+
+    if (!isMobile || !video) {
+      setIsHeroVideoReady(false)
+      return undefined
+    }
+
+    const syncReadyState = () => {
+      setIsHeroVideoReady(video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA)
+    }
+
+    syncReadyState()
+
+    video.addEventListener('loadeddata', syncReadyState)
+    video.addEventListener('canplay', syncReadyState)
+    video.addEventListener('waiting', syncReadyState)
+    video.addEventListener('emptied', syncReadyState)
+
+    return () => {
+      video.removeEventListener('loadeddata', syncReadyState)
+      video.removeEventListener('canplay', syncReadyState)
+      video.removeEventListener('waiting', syncReadyState)
+      video.removeEventListener('emptied', syncReadyState)
+    }
+  }, [isMobile])
 
   useEffect(() => {
     if (isMobile) {
@@ -454,10 +482,22 @@ function HeroSection({ onDemoRequest }) {
     <section className="hero-section" ref={heroRef}>
       <div className="hero-sticky">
         <div className="hero-media" aria-hidden="true">
+          {isMobile ? (
+            <img
+              className={`hero-video-fallback ${isHeroVideoReady ? 'is-hidden' : ''}`}
+              src="/assets/video/final-video-hero-limmer.png"
+              alt=""
+              width="1179"
+              height="2556"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          ) : null}
           <canvas ref={heroCanvasRef} className="hero-canvas" />
           <video
             ref={heroVideoRef}
-            className="hero-video"
+            className={`hero-video ${isHeroVideoReady ? 'is-ready' : ''}`}
             loop
             muted
             playsInline
@@ -469,7 +509,7 @@ function HeroSection({ onDemoRequest }) {
         <div className="hero-isotipo" aria-hidden="true">
           <img
             className={`hero-isotipo__image ${isHeroInViewport ? 'spin-loop is-motion-active' : 'spin-loop'}`}
-            src="/assets/isotipo-blur.svg"
+            src="/assets/logos/isotipo-blur.svg"
             alt=""
             width="88"
             height="88"
