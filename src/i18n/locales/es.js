@@ -1,6 +1,8 @@
 const es = {
   meta: {
     title: 'Glimmer | Sistema de Inteligencia de Mercado impulsado por Inteligencia Artificial',
+    description:
+      'Plataforma de inteligencia de mercado impulsada por IA que detecta señales críticas de tu industria. Monitoriza competidores, regulación, tecnología y oportunidades.',
   },
   nav: {
     solution: 'La solución',

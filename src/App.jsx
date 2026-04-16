@@ -83,7 +83,7 @@ function App() {
   useEffect(() => {
     const resolvedLanguage = i18n.resolvedLanguage || pathLanguage
     const pageTitle = legalDocument ? `Glimmer | ${legalDocument.title}` : t('meta.title')
-    const pageDescription = legalDocument?.description || t('hero.description')
+    const pageDescription = legalDocument?.description || t('meta.description')
     const imagePath = openGraphImages[resolvedLanguage] || openGraphImages.es
     const imageUrl = new URL(imagePath, siteOrigin).href
     const pageUrl = new URL(pathname, siteOrigin).href

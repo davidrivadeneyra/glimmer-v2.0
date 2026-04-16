@@ -1,6 +1,8 @@
 const en = {
   meta: {
     title: 'Glimmer | AI powered Market Intelligence System',
+    description:
+      'Market intelligence platform powered by AI that detects critical signals in your industry. Monitor competitors, regulation, technology, opportunities & risks.',
   },
   nav: {
     solution: 'Solution',
