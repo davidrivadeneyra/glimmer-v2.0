@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 import Button from '../Button'
@@ -131,6 +131,8 @@ function HeroSection({ onDemoRequest }) {
   const heroRef = useRef(null)
   const heroCanvasRef = useRef(null)
   const heroVideoRef = useRef(null)
+  const heroLogoRowRef = useRef(null)
+  const heroLogoSetRef = useRef(null)
   const heroFrameImagesRef = useRef(new Map())
   const heroPendingFramesRef = useRef(new Set())
   const heroFrameIndexRef = useRef(0)
@@ -145,10 +147,16 @@ function HeroSection({ onDemoRequest }) {
   const [heroTickerIndex, setHeroTickerIndex] = useState(0)
   const [mobileTerminalText, setMobileTerminalText] = useState('')
   const [isHeroVideoReady, setIsHeroVideoReady] = useState(false)
+  const [heroLogoRepeatCount, setHeroLogoRepeatCount] = useState(4)
+  const [heroLogoSetWidth, setHeroLogoSetWidth] = useState(0)
 
   const heroTitles = t('hero.titles', { returnObjects: true })
   const tickerWords = t('ticker.words', { returnObjects: true })
   const heroTitlesKey = JSON.stringify(heroTitles)
+  const heroLogoCopies = useMemo(
+    () => Array.from({ length: heroLogoRepeatCount }, (_, index) => index),
+    [heroLogoRepeatCount],
+  )
 
   useSectionReveal(heroRef, [heroTitles])
   useViewportVideo(heroVideoRef)
@@ -254,6 +262,39 @@ function HeroSection({ onDemoRequest }) {
       video.removeEventListener('emptied', syncReadyState)
     }
   }, [isMobile])
+
+  useEffect(() => {
+    const logoRow = heroLogoRowRef.current
+    const logoSet = heroLogoSetRef.current
+
+    if (!logoRow || !logoSet || typeof window === 'undefined') {
+      return undefined
+    }
+
+    const updateLogoTrackMetrics = () => {
+      const rowWidth = logoRow.getBoundingClientRect().width
+      const setWidth = logoSet.getBoundingClientRect().width
+
+      if (!rowWidth || !setWidth) {
+        return
+      }
+
+      setHeroLogoSetWidth(setWidth)
+      setHeroLogoRepeatCount(Math.max(4, Math.ceil(rowWidth / setWidth) + 2))
+    }
+
+    updateLogoTrackMetrics()
+
+    const resizeObserver = new ResizeObserver(updateLogoTrackMetrics)
+    resizeObserver.observe(logoRow)
+    resizeObserver.observe(logoSet)
+    window.addEventListener('resize', updateLogoTrackMetrics)
+
+    return () => {
+      resizeObserver.disconnect()
+      window.removeEventListener('resize', updateLogoTrackMetrics)
+    }
+  }, [clientLogos.length])
 
   useEffect(() => {
     if (isMobile) {
@@ -600,13 +641,17 @@ function HeroSection({ onDemoRequest }) {
             <div className="hero-actions" data-reveal style={{ '--reveal-delay': '220ms' }}>
               <div className="hero-trust">
                 <p className='type-description-size text-description-dark pb-4 md:pb-4'>{t('hero.trust')}</p>
-                <div className="hero-logo-row">
-                  <div className={`hero-logo-track ${isHeroInViewport ? 'is-motion-active' : ''}`}>
-                    {[0, 1, 2].map((copyIndex) => (
+                <div className="hero-logo-row" ref={heroLogoRowRef}>
+                  <div
+                    className={`hero-logo-track ${isHeroInViewport ? 'is-motion-active' : ''}`}
+                    style={{ '--hero-logo-shift': `${heroLogoSetWidth}px` }}
+                  >
+                    {heroLogoCopies.map((copyIndex) => (
                       <span
                         key={`hero-logo-set-${copyIndex}`}
                         className="hero-logo-set"
                         aria-hidden={copyIndex > 0}
+                        ref={copyIndex === 0 ? heroLogoSetRef : undefined}
                       >
                         {clientLogos.map((logo) => (
                           <span
