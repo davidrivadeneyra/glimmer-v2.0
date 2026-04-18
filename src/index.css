@@ -1951,19 +1951,11 @@ select {
 }
 
 .opportunity-section {
-  --opportunity-scroll-span: 220vh;
   position: relative;
   z-index: 1;
   overflow: clip;
-  min-height: var(--opportunity-scroll-span);
   background: #010104;
-}
-
-.opportunity-sticky {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;
-  overflow: clip;
+  padding: 128px 0;
 }
 
 .opportunity-media {
@@ -1978,6 +1970,7 @@ select {
   display: block;
   object-fit: cover;
   pointer-events: none;
+  transition: transform 160ms linear;
   -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
   mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
 }
@@ -1986,65 +1979,75 @@ select {
   position: absolute;
   inset: 0;
   pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(1, 1, 4, 0.2) 0%, rgba(1, 1, 4, 0.52) 100%),
+    radial-gradient(circle at top, rgba(118, 142, 255, 0.14), transparent 48%);
 }
 
 .opportunity-shell {
   position: relative;
   z-index: 1;
-  display: grid;
-  grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
-  gap: 72px;
-  align-items: center;
-  min-height: 100vh;
-  padding: 96px 0;
-}
-
-.opportunity-meta {
-  position: relative;
-}
-
-.opportunity-meta p {
-  margin: 8px 0 24px;
-  color: #f8f9fc;
-  line-height: 1;
-}
-
-.opportunity-meta img {
-  width: 48px;
-}
-
-.opportunity-lines {
-  position: relative;
-  min-height: clamp(220px, 28vh, 320px);
-}
-
-.opportunity-line-stage {
-  position: absolute;
-  inset: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
+  gap: 64px;
 }
 
-.opportunity-line-stage__viewport {
+.opportunity-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 920px;
+  text-align: center;
+}
+
+.opportunity-header .ticker-logo {
+  width: 48px;
+  height: 48px;
+}
+
+.opportunity-title {
+  max-width: 14ch;
+  color: #fff;
+}
+
+.opportunity-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
   width: 100%;
 }
 
-.opportunity-line-mask {
-  display: block;
+.opportunity-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 88px;
+  min-height: 340px;
+  padding: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 48px;
+  background: rgba(255, 255, 255, 0.034);
+  -webkit-backdrop-filter: blur(50px);
+  backdrop-filter: blur(50px);
 }
 
-.opportunity-line-text {
-  display: block;
+.opportunity-card:last-child:nth-child(3n + 1) {
+  grid-column: 2 / 3;
+}
+
+.opportunity-card .ticker-logo {
+  width: 56px;
+  height: 56px;
+  opacity: 0.10;
+}
+
+.opportunity-card__text {
+  margin: 0;
+  max-width: 14ch;
   color: rgba(248, 249, 252, 0.92);
-  font-size: clamp(2.25rem, 5vw, 4rem);
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.03em;
-  will-change: transform, opacity;
-}
-
-.opportunity-line-text--lead {
-  color: #fff;
 }
 
 .use-cases-section {
@@ -2862,7 +2865,6 @@ select {
 
 @media (max-width: 640px) {
   .workflow-card,
-  .opportunity-shell,
   .delivery-shell,
   .stats-grid {
     grid-template-columns: 1fr;
@@ -2879,8 +2881,26 @@ select {
     min-height: 0;
   }
 
-  .opportunity-meta {
-    position: static;
+  .opportunity-section {
+    padding: 88px 0;
+  }
+
+  .opportunity-cards {
+    /* grid-template-columns: 1fr; */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .opportunity-card {
+    min-height: 0;
+    gap: 56px;
+    padding: 32px;
+    border-radius: 36px;
+  }
+
+  .opportunity-card__text {
+    max-width: none;
   }
 
   .delivery-visual {
@@ -3044,6 +3064,10 @@ select {
   .hero-mobile-ticker {
     display: none;
   }
+
+  .opportunity-header .ui-button {
+    width: auto;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -3194,15 +3218,16 @@ select {
   }
 
   .opportunity-shell {
-    min-height: 100vh;
-    padding: 112px 0 88px;
-    grid-template-columns: minmax(0, 1fr);
     gap: 40px;
-    align-items: end;
   }
 
-  .opportunity-lines p {
-    font-size: 42px;
+  .opportunity-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .opportunity-title {
+    max-width: 12ch;
   }
 
   .use-cases-header-shell {
