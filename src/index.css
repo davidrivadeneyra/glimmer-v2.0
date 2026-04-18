@@ -2009,7 +2009,7 @@ select {
 }
 
 .opportunity-title {
-  max-width: 14ch;
+  width: 100%;
   color: #fff;
 }
 
@@ -3227,7 +3227,7 @@ select {
   }
 
   .opportunity-title {
-    max-width: 12ch;
+    /* max-width: 12ch; */
   }
 
   .use-cases-header-shell {
